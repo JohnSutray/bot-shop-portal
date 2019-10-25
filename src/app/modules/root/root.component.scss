@@ -1,0 +1,18 @@
+.app {
+  &__logo {
+    margin-right: 10px;
+  }
+
+  &__navigation-section {
+    width: 100%;
+  }
+
+  &__header {
+    margin-right: 10px;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
