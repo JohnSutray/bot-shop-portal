@@ -33,7 +33,6 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
 
   getCustomErrorMessages(errorResponse: any): string[] {
     const customError = errorResponse.error.message;
-    console.log(customError);
 
     const isString = typeof customError === 'string';
     const isArray = customError instanceof Array;

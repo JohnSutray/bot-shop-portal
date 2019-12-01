@@ -1,13 +1,15 @@
-import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { Observable, of, Subject } from 'rxjs';
 import { Product } from '../../models/product.model';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { ImageUploadService } from '../../services/image-upload.service';
-import { ImageConstants } from '../../constants/image.constants';
+import { UploadService } from '../../services/upload.service';
 import { FileUtils } from '../../utils/file-utils';
 import { ProductCategory } from '../../models/product-category.model';
 import { switchMap, tap } from 'rxjs/operators';
 import { ProductService } from '../../services/product.service';
+import { EDisplayType } from '../../enums/display-type.enum';
+import * as AWS from 'aws-sdk';
+import { LabelsConstants } from '../../constants/labels.constants';
 
 @Component({
   selector: 'app-product-item',
@@ -16,189 +18,230 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductItemComponent implements OnInit {
   constructor(
-    private readonly imageUploadService: ImageUploadService,
+    private readonly imageUploadService: UploadService,
     private readonly productService: ProductService,
   ) {
   }
 
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef<HTMLInputElement>;
   @Input() product: Product;
-  @Input() isCreateMode = false;
-  @Input() isEditMode = false;
+  @Input() inCreateMode = false;
+
   @Output() update = new Subject<Product>();
   @Output() cancel = new Subject<any>();
-  uploadedImagePlaceholder: string;
-  isNewCategoryMode: boolean;
-  isNewTypeMode: boolean;
-  categories: ProductCategory[] = [];
-  types: string[] = [];
 
+  inNewCategoryMode: boolean;
+  inNewTypeMode: boolean;
+  inEditMode = false;
+  allCategories: ProductCategory[] = [];
+  allTypes: string[] = [];
+  contentFile: File;
+
+  readonly LabelsConstants = LabelsConstants;
   readonly nameControl = new FormControl('', [Validators.required]);
   readonly priceControl = new FormControl('', [Validators.required]);
   readonly descriptionControl = new FormControl('', [Validators.required]);
   readonly categoryControl = new FormControl('', [Validators.required]);
   readonly typeControl = new FormControl('', [Validators.required]);
-  readonly imageControl = new FormControl('', [() => this.imageValidator()]);
+  readonly contentUrlControl = new FormControl('', [() => this.contentValidator()]);
+  readonly displayTypeControl = new FormControl('', [Validators.required]);
+
   readonly productFormGroup = new FormGroup({
     name: this.nameControl,
     description: this.descriptionControl,
     price: this.priceControl,
-    imageUrl: this.imageControl,
+    contentUrl: this.contentUrlControl,
+    displayType: this.displayTypeControl,
     category: this.categoryControl,
     type: this.typeControl,
   });
 
-  imageFile: File;
+  private imagePreviewUrl: string;
+  private videoPreviewUrl: string;
 
-  get isFormState(): boolean {
-    return this.isCreateMode || this.isEditMode;
+  get inFormState(): boolean {
+    return this.inCreateMode || this.inEditMode;
   }
 
   get imageUrl(): string {
-    if (!this.isFormState) {
-      return this.product.imageUrl;
+    if (!this.inFormState || this.inEditMode && !this.imagePreviewUrl) {
+      return this.product.contentUrl;
     }
 
-    return this.uploadedImagePlaceholder
-      || this.imageControl.value
-      || ImageConstants.PRODUCT_IMAGE_PLACEHOLDER;
+    return this.imagePreviewUrl;
   }
 
-  get invalidState(): boolean {
+  get videoUrl(): string {
+    if (!this.inFormState || this.inEditMode && !this.videoPreviewUrl) {
+      return this.product.contentUrl;
+    }
+
+    return this.videoPreviewUrl;
+  }
+
+  get formInvalid(): boolean {
     return this.productFormGroup.invalid
-      || (this.isCreateMode && !this.imageFile);
+      || (this.inCreateMode && !this.contentFile);
   }
 
   ngOnInit(): void {
-    if (this.isCreateMode) {
+    this.resetToDefaults();
+
+    if (this.inCreateMode) {
       this.fetchOptions();
     }
   }
 
-  afterUpdate = (product: Product) => {
-    if (this.isCreateMode) {
-      this.resetCreateModeDefaults();
-    } else {
-      this.resetEditModeDefaults();
-    }
-
-    this.update.next(product);
-  };
-
-  onEditClick(): void {
+  enableEditMode(): void {
+    this.inEditMode = true;
     this.fetchOptions();
     this.resetEditModeDefaults();
-    this.isEditMode = true;
   }
 
-  onChangesSubmit() {
-    this.uploadImage()
-      .pipe(
-        switchMap(() => this.isEditMode
-          ? this.productService.update(this.product.id, this.productFormGroup.value)
-          : this.productService.create(this.productFormGroup.value),
-        ),
-      ).subscribe(this.afterUpdate);
+  submitChanges() {
+    this.uploadContent().pipe(
+      switchMap(this.commitChanges),
+      tap(this.afterCommit),
+    ).subscribe();
   }
 
-  onSelectFileClick(): void {
-    this.fileInput.nativeElement.click();
+
+  setTypes(types: string[]) {
+    this.allTypes = types;
   }
 
-  onCategorySelect() {
-    const category = this.categories.find(c => c.name === this.categoryControl.value);
-    this.types = category.productTypes;
+  setFileAndDisplayType(file: File) {
+    this.contentFile = file;
 
-    const newTypeValue = this.isEditMode && category.name === this.product.category
-      ? this.product.type
-      : null;
+    switch (this.contentFile.type) {
+      case 'image/jpeg':
+      case 'image/png':
+        this.displayTypeControl.setValue(EDisplayType.IMAGE);
+        FileUtils.toBase64(this.contentFile).subscribe(this.setImagePreview);
+        break;
+      case 'video/mp4':
+        this.displayTypeControl.setValue(EDisplayType.VIDEO);
+        this.videoPreviewUrl = URL.createObjectURL(this.contentFile);
+        break;
+    }
 
-    this.typeControl.setValue(newTypeValue);
-  }
-
-  onFileSelect() {
-    this.imageFile = this.fileInput.nativeElement.files[0];
-    FileUtils.toBase64(this.imageFile).subscribe(
-      imageUrl => this.uploadedImagePlaceholder = imageUrl,
-    );
+    this.contentUrlControl.updateValueAndValidity();
   }
 
   removeProduct() {
-    this.imageUploadService.removeImage(this.product.imageUrl, 'import-shop-bot').pipe(
+    this.requestRemoveCurrent().pipe(
       switchMap(() => this.productService.remove(this.product.id)),
       tap(() => this.update.next()),
     ).subscribe();
   }
 
-  onNewCategoryModeChange(): void {
-    if (this.isNewCategoryMode) {
-      this.isNewTypeMode = true;
-      this.categoryControl.setValue('Новая категория');
-      this.typeControl.setValue('Новый тип');
-    }
+  removeFileAndPlaceholder() {
+    this.contentFile = null;
+    this.imagePreviewUrl = null;
+    this.videoPreviewUrl = null;
+    this.displayTypeControl.setValue(this.inCreateMode ? EDisplayType.IMAGE : this.product.displayType);
   }
 
-  fetchOptions() {
+  setNewCategoryDefaultValues(): void {
+    if (!this.inNewCategoryMode) {
+      return;
+    }
+
+    this.inNewTypeMode = true;
+    this.categoryControl.setValue('Новая категория');
+    this.typeControl.setValue('Новый тип');
+  }
+
+  cancelChanges() {
+    this.resetToDefaults();
+    this.leaveEditMode();
+    this.cancel.next();
+  }
+
+  private setImagePreview = (imageUrl: string) => this.imagePreviewUrl = imageUrl;
+
+  private fetchOptions() {
     this.productService.getAllCategories().pipe(
-      tap(categories => this.categories = categories),
-      tap(() => this.isEditMode && this.onCategorySelect()),
+      tap(categories => this.allCategories = categories),
     ).subscribe();
   }
 
-  resetCreateModeDefaults(): void {
-    this.isNewCategoryMode = false;
-    this.isNewTypeMode = false;
+  private resetCreateModeDefaults(): void {
     this.nameControl.setValue('Имя');
-    this.priceControl.setValue(0);
     this.descriptionControl.setValue('Описание');
-    this.imageControl.setValue('');
-    this.clearImage();
+    this.priceControl.setValue(null);
+    this.contentUrlControl.setValue(null);
+    this.displayTypeControl.setValue(EDisplayType.IMAGE);
   }
 
-  resetEditModeDefaults(): void {
-    this.isNewCategoryMode = false;
-    this.isNewTypeMode = false;
-    this.isEditMode = false;
+  private resetEditModeDefaults(): void {
     this.nameControl.setValue(this.product.name);
     this.priceControl.setValue(this.product.price);
     this.descriptionControl.setValue(this.product.description);
-    this.imageControl.setValue(this.product.imageUrl);
+    this.contentUrlControl.setValue(this.product.contentUrl);
+    this.displayTypeControl.setValue(this.product.displayType);
     this.categoryControl.setValue(this.product.category);
     this.typeControl.setValue(this.product.type);
   }
 
-  clearImage() {
-    this.imageFile = null;
-    this.uploadedImagePlaceholder = null;
-  }
-
-  uploadImage() {
-    if (!this.imageFile) {
+  private uploadContent(): Observable<any> {
+    if (!this.contentFile) {
       return of({});
     }
 
-    if (this.isCreateMode) {
-      return this.imageUploadService.uploadImage(this.imageFile, 'import-shop-bot').pipe(
-        tap(result => this.imageControl.setValue(result.Location)),
-      );
-    }
+    const removePreviousContent = this.inEditMode
+      ? this.requestRemoveCurrent()
+      : of({});
 
-    return this.imageUploadService.removeImage(this.imageControl.value, 'import-shop-bot').pipe(
-      switchMap(() => this.imageUploadService.uploadImage(this.imageFile, 'import-shop-bot')),
-      tap(result => this.imageControl.setValue(result.Location)),
+    return removePreviousContent.pipe(
+      switchMap(this.requestFileUpload),
+      tap(this.setNewUrl),
     );
   }
 
-  imageValidator(): ValidationErrors | null {
-    if (this.isCreateMode && !this.imageFile) {
-      return {
-        imageControl: false,
-      };
-    }
+  private requestFileUpload = (): Observable<AWS.S3.ManagedUpload.SendData> => {
+    return this.imageUploadService.uploadObject(this.contentFile, 'import-shop-bot');
+  };
+
+  private setNewUrl = (result: AWS.S3.ManagedUpload.SendData): void => {
+    this.contentUrlControl.setValue(result.Location);
+  };
+
+  private requestRemoveCurrent(): Observable<AWS.S3.DeleteObjectOutput> {
+    return this.imageUploadService.removeObject(this.product.contentUrl, 'import-shop-bot');
   }
 
-  onCancel() {
-    this.isEditMode = false;
-    this.cancel.next();
+  private contentValidator(): ValidationErrors | null {
+    return this.inCreateMode && !this.contentFile
+    || this.inEditMode && !this.contentUrlControl.value
+      ? { imageControl: false }
+      : null;
+  }
+
+  private commitChanges = (): Observable<Product> => this.inEditMode
+    ? this.productService.update(this.product.id, this.productFormGroup.value)
+    : this.productService.create(this.productFormGroup.value);
+
+  private afterCommit = (product: Product) => {
+    this.resetToDefaults();
+    this.leaveEditMode();
+    this.update.next(product);
+  };
+
+  private resetToDefaults(): void {
+    this.inCreateMode
+      ? this.resetCreateModeDefaults()
+      : this.resetEditModeDefaults();
+
+    this.resetCommonDefaults();
+    this.removeFileAndPlaceholder();
+  }
+
+  private resetCommonDefaults(): void {
+    this.inNewCategoryMode = false;
+    this.inNewTypeMode = false;
+  }
+
+  private leaveEditMode(): void {
+    this.inEditMode = false;
   }
 }

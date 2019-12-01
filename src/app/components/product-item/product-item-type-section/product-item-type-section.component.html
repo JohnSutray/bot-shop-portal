@@ -1,0 +1,19 @@
+<mat-form-field class="product-item__type-section"
+                *ngIf="!inNewTypeMode else newTypeField">
+  <mat-label>{{LabelsConstants.TYPE}}</mat-label>
+  <mat-select [formControl]="typeControl">
+    <mat-option *ngFor="let type of allTypes"
+                [value]="type">
+      {{ type }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<ng-template #newTypeField>
+  <mat-form-field class="product-item__type-section">
+    <mat-label>{{LabelsConstants.TYPE}}</mat-label>
+    <input matInput
+           [formControl]="typeControl"
+           autocomplete="off">
+  </mat-form-field>
+</ng-template>

@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class ImageUploadService {
+export class UploadService {
   private s3Service: AWS.S3;
   private credentials: Credentials;
 
@@ -19,7 +19,7 @@ export class ImageUploadService {
   ) {
   }
 
-  uploadImage(file: File, bucket: string): Observable<AWS.S3.ManagedUpload.SendData> {
+  uploadObject(file: File, bucket: string): Observable<AWS.S3.ManagedUpload.SendData> {
     return this.checkCredentials().pipe(
       switchMap(() => this.s3Service.upload({
         Bucket: bucket,
@@ -31,7 +31,7 @@ export class ImageUploadService {
     );
   }
 
-  removeImage(imageUrl: string, bucket: string) {
+  removeObject(imageUrl: string, bucket: string): Observable<AWS.S3.DeleteObjectOutput> {
     const key = imageUrl.slice(imageUrl.lastIndexOf('/') + 1);
 
     return this.checkCredentials().pipe(

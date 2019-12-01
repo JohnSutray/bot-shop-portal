@@ -1,20 +1,10 @@
 .product {
   margin: 20px;
 
-  &__name-field {
-    margin: 10px
-  }
-
   &__description-field {
     textarea {
       resize: none;
     }
-  }
-
-  &__image {
-    object-fit: contain;
-    max-width: 400px;
-    height: 300px;
   }
 
   &__organisation-settings-section {

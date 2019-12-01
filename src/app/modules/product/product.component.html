@@ -7,7 +7,7 @@
   <app-product-item *ngIf="isCreateMode"
                     (update)="onProductUpdate()"
                     (cancel)="isCreateMode = false"
-                    [isCreateMode]="true">
+                    [inCreateMode]="true">
   </app-product-item>
 
   <div *ngIf="!isCreateMode"
