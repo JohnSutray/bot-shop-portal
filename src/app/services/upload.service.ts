@@ -1,4 +1,5 @@
-import * as AWS from 'aws-sdk';
+import * as S3 from 'aws-sdk/clients/s3';
+import { config } from 'aws-sdk';
 import { Injectable } from '@angular/core';
 import { switchMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -11,7 +12,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class UploadService {
-  private s3Service: AWS.S3;
+  private s3Service: S3;
   private credentials: Credentials;
 
   constructor(
@@ -19,7 +20,7 @@ export class UploadService {
   ) {
   }
 
-  uploadObject(file: File, bucket: string): Observable<AWS.S3.ManagedUpload.SendData> {
+  uploadObject(file: File, bucket: string): Observable<S3.ManagedUpload.SendData> {
     return this.checkCredentials().pipe(
       switchMap(() => this.s3Service.upload({
         Bucket: bucket,
@@ -31,7 +32,7 @@ export class UploadService {
     );
   }
 
-  removeObject(imageUrl: string, bucket: string): Observable<AWS.S3.DeleteObjectOutput> {
+  removeObject(imageUrl: string, bucket: string): Observable<S3.DeleteObjectOutput> {
     const key = imageUrl.slice(imageUrl.lastIndexOf('/') + 1);
 
     return this.checkCredentials().pipe(
@@ -55,13 +56,13 @@ export class UploadService {
       .get<Credentials>(`${environment.apiUrl}/credentials`)
       .pipe(
         tap(credentials => this.credentials = credentials),
-        tap(credentials => AWS.config.update({
+        tap(credentials => config.update({
           accessKeyId: credentials.AccessKeyId,
           secretAccessKey: credentials.SecretAccessKey,
           sessionToken: credentials.SessionToken,
           region: 'eu-north-1',
         })),
-        tap(() => this.s3Service = new AWS.S3()),
+        tap(() => this.s3Service = new S3()),
       );
   }
 }

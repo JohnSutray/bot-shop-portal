@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'http://import-shop-api.premium-okna.by',
 };
 
 import 'zone.js/dist/zone-error';

@@ -1,5 +1,6 @@
 <div class="flex-row flex-wrap">
-  <app-product-item *ngFor="let product of products"
+
+  <app-product-item *ngFor="let product of products | async"
                     (update)="onProductUpdate()"
                     [product]="product">
   </app-product-item>

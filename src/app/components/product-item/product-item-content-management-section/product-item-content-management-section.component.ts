@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 export class ProductItemContentManagementSectionComponent {
   readonly LabelsConstants = LabelsConstants;
 
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
 
   @Input() inEditMode: boolean;
 

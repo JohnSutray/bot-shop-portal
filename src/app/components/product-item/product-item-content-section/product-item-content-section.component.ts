@@ -13,8 +13,8 @@ export class ProductItemContentSectionComponent implements OnChanges {
   readonly LabelsConstants = LabelsConstants;
   readonly imagePlaceholder = ImageConstants.PRODUCT_IMAGE_PLACEHOLDER;
 
-  @ViewChild('videoElement', { static: false }) videoElement: ElementRef<HTMLVideoElement>;
-  @ViewChild('videoElementSource', { static: false }) videoElementSource: ElementRef<HTMLSourceElement>;
+  @ViewChild('videoElement') videoElement: ElementRef<HTMLVideoElement>;
+  @ViewChild('videoElementSource') videoElementSource: ElementRef<HTMLSourceElement>;
 
   @Input() displayType: EDisplayType;
   @Input() videoUrl: string;

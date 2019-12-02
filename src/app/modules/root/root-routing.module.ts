@@ -7,21 +7,21 @@ const routes: Routes = [
   {
     path: 'product',
     canActivate: [AuthorizationGuard],
-    loadChildren: () => import('../product/product.module').then(m => m.ProductModule),
+    loadChildren: '../product/product.module#ProductModule',
   },
   {
     path: 'order',
     canActivate: [AuthorizationGuard],
-    loadChildren: () => import('../order/order.module').then(m => m.OrderModule),
+    loadChildren: '../order/order.module#OrderModule',
   },
   {
     path: 'sign-in',
-    loadChildren: () => import('../sign-in/sign-in.module').then(m => m.SignInModule),
+    loadChildren: '../sign-in/sign-in.module#SignInModule',
   },
   {
     path: 'home',
     canActivate: [AuthorizationGuard],
-    loadChildren: () => import('../home/home.module').then(m => m.HomeModule),
+    loadChildren: '../home/home.module#HomeModule',
   },
   {
     path: '**',

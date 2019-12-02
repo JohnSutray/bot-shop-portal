@@ -2,14 +2,14 @@ import { EDisplayType } from '../enums/display-type.enum';
 
 export class Product {
   constructor(
-    readonly id: string,
-    readonly contentUrl: string,
-    readonly displayType: EDisplayType,
-    readonly name: string,
-    readonly description: string,
-    readonly price: number,
-    readonly category: string,
-    readonly type: string,
+    public id: string,
+    public contentUrl: string,
+    public displayType: EDisplayType,
+    public name: string,
+    public description: string,
+    public price: number,
+    public category: string,
+    public type: string,
   ) {
   }
 }

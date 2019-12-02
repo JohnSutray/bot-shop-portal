@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order.model';
 import { Observable } from 'rxjs';
 import { PageResult } from '../models/page-result.model';
-import { PaginatePattern } from '../models/paginate-pattern.model';
+import { PaginateSettings } from '../models/paginate-pattern.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -15,8 +15,8 @@ export class OrderService {
   ) {
   }
 
-  getOrders(pattern: PaginatePattern<Order> = new PaginatePattern()): Observable<PageResult<Order>> {
-    return this.httpClient.post<PageResult<Order>>(`${environment.apiUrl}/order/all`, pattern);
+  getOrders(settings: PaginateSettings<Order> = new PaginateSettings()): Observable<PageResult<Order>> {
+    return this.httpClient.post<PageResult<Order>>(`${environment.apiUrl}/order/all`, settings);
   }
 
   removeOrder(id: string): Observable<Order> {

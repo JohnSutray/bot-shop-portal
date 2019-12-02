@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 import { PageResult } from '../models/page-result.model';
 import { ProductCategory } from '../models/product-category.model';
-import { PaginatePattern } from '../models/paginate-pattern.model';
+import { PaginateSettings } from '../models/paginate-pattern.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -16,8 +16,8 @@ export class ProductService {
   ) {
   }
 
-  findAll(pattern: PaginatePattern<Product>): Observable<PageResult<Product>> {
-    return this.httpClient.post<PageResult<Product>>(`${environment.apiUrl}/product/find/all`, pattern);
+  findAll(settings: PaginateSettings<Product>): Observable<PageResult<Product>> {
+    return this.httpClient.post<PageResult<Product>>(`${environment.apiUrl}/product/find/all`, settings);
   }
 
   findAllById(ids: string[]): Observable<Product[]> {
