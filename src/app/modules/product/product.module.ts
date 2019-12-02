@@ -4,11 +4,15 @@ import { ProductComponent } from './product.component';
 import { ProductItemModule } from '../../components/product-item/product-item.module';
 import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { ProductRoutingModule } from './product-routing.module';
+import { PaginatorModule } from '../../components/paginator/paginator.module';
+import { ProductFilterComponent } from './product-filter/product-filter.component';
 
 
 @NgModule({
   declarations: [
     ProductComponent,
+    ProductFilterComponent,
+    ProductFilterComponent,
   ],
   imports: [
     ProductRoutingModule,
@@ -19,6 +23,7 @@ import { ProductRoutingModule } from './product-routing.module';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    PaginatorModule,
   ],
 })
 export class ProductModule {

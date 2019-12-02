@@ -21,6 +21,7 @@ export class OrderComponent implements OnInit {
     hasPrevPage: false,
     hasNextPage: true,
     docs: [],
+    totalPages: 2,
   });
   orders = this.orderPage.pipe(
     map(page => page.docs),

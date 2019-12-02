@@ -1,7 +1,10 @@
 export class PaginateOptions<T> {
-  select?: T | object | string;
-  sort?: object | string;
-  offset?: number;
-  page?: number;
-  limit?: number;
+  constructor(
+    readonly page?: number,
+    readonly limit?: number,
+    readonly select?: T | object | string,
+    readonly sort?: object | string,
+    readonly offset?: number,
+  ) {
+  }
 }

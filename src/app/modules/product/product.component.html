@@ -1,26 +1,11 @@
 <div class="flex-row flex-wrap">
+  <app-paginator [pageResult]="pageResult | async"
+                 (paginateOptions)="updateProducts($event)">
+  </app-paginator>
 
-  <div class="flex-row">
-    <button mat-icon-button>
-      <mat-icon>
-        arrow_left
-      </mat-icon>
-    </button>
-
-    <mat-form-field appearance="outline">
-      <input matInput
-             [disabled]="pageFieldDisabled | async"
-             min="1" [max]="">
-    </mat-form-field>
-
-    <button mat-icon-button>
-      <mat-icon>
-        arrow_left
-      </mat-icon>
-    </button>
-
-    <mat-select [value]="_selectedCategory"></mat-select>
-  </div>
+  <app-product-filter [allCategories]="allCategories | async"
+                      (productPattern)="setProductPattern($event)">
+  </app-product-filter>
 
   <p></p>
 
