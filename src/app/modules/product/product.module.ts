@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductComponent } from './product.component';
 import { ProductItemModule } from '../../components/product-item/product-item.module';
-import { MatButtonModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { ProductRoutingModule } from './product-routing.module';
 
 
@@ -16,6 +16,9 @@ import { ProductRoutingModule } from './product-routing.module';
     ProductItemModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
 })
 export class ProductModule {

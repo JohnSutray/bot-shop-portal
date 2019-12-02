@@ -1,5 +1,29 @@
 <div class="flex-row flex-wrap">
 
+  <div class="flex-row">
+    <button mat-icon-button>
+      <mat-icon>
+        arrow_left
+      </mat-icon>
+    </button>
+
+    <mat-form-field appearance="outline">
+      <input matInput
+             [disabled]="pageFieldDisabled | async"
+             min="1" [max]="">
+    </mat-form-field>
+
+    <button mat-icon-button>
+      <mat-icon>
+        arrow_left
+      </mat-icon>
+    </button>
+
+    <mat-select [value]="_selectedCategory"></mat-select>
+  </div>
+
+  <p></p>
+
   <app-product-item *ngFor="let product of products | async"
                     (update)="onProductUpdate()"
                     [product]="product">

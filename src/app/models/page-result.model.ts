@@ -4,4 +4,5 @@ export class PageResult<TContent> {
   readonly limit: number;
   readonly hasPrevPage: boolean;
   readonly hasNextPage: boolean;
+  readonly totalPages: number;
 }

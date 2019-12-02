@@ -8,7 +8,7 @@ import { ProductCategory } from '../../models/product-category.model';
 import { switchMap, tap } from 'rxjs/operators';
 import { ProductService } from '../../services/product.service';
 import { EDisplayType } from '../../enums/display-type.enum';
-import * as AWS from 'aws-sdk';
+import * as S3 from 'aws-sdk/clients/s3';
 import { LabelsConstants } from '../../constants/labels.constants';
 
 @Component({
@@ -198,15 +198,15 @@ export class ProductItemComponent implements OnInit {
     );
   }
 
-  private requestFileUpload = (): Observable<AWS.S3.ManagedUpload.SendData> => {
+  private requestFileUpload = (): Observable<S3.ManagedUpload.SendData> => {
     return this.imageUploadService.uploadObject(this.contentFile, 'import-shop-bot');
   };
 
-  private setNewUrl = (result: AWS.S3.ManagedUpload.SendData): void => {
+  private setNewUrl = (result: S3.ManagedUpload.SendData): void => {
     this.contentUrlControl.setValue(result.Location);
   };
 
-  private requestRemoveCurrent(): Observable<AWS.S3.DeleteObjectOutput> {
+  private requestRemoveCurrent(): Observable<S3.DeleteObjectOutput> {
     return this.imageUploadService.removeObject(this.product.contentUrl, 'import-shop-bot');
   }
 
