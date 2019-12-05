@@ -1,1 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+
+html, body {
+  height: 100%;
+  background-color: #b2b2b2;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-no-shrink {
+  flex-shrink: 0;
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.display-none {
+  display: none;
+}
+
+@for $i from 1 to 10 {
+  .flex-grow-#{$i} {
+    flex-grow: $i;
+  }
+}
+
+.justify-flex-end {
+  justify-content: flex-end;
+}
+
+.align-flex-end {
+  align-items: flex-end;
+}

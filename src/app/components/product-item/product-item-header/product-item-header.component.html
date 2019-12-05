@@ -1,0 +1,19 @@
+<mat-card-header class="product-item__header"
+                 *ngIf="!inFormState else formCardHeader">
+  <mat-card-title style="font-size: 14px">
+    {{product.name}}
+  </mat-card-title>
+  <mat-card-subtitle>
+    {{product.price}}
+    {{LabelsConstants.RUBLES_POSTFIX}}
+  </mat-card-subtitle>
+</mat-card-header>
+
+<ng-template #formCardHeader>
+  <mat-card-header>
+    <mat-card-title>
+      {{inEditMode ? LabelsConstants.CHANGE : LabelsConstants.CREATE}}
+      {{LabelsConstants.PRODUCT}}
+    </mat-card-title>
+  </mat-card-header>
+</ng-template>

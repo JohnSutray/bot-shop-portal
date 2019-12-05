@@ -1,0 +1,33 @@
+<div class="flex-column">
+  <div class="flex-row flex-center">
+    <h1>Добро пожаловать в {{ botName }}</h1>
+  </div>
+
+  <div class="flex-row flex-center">
+    <img src="../../../assets/t-bot.svg"
+         class="home__poster"
+         alt="Import Shop Portal">
+  </div>
+
+  <br>
+
+  <div class="flex-row flex-center">
+    <div class="flex-grow-5"></div>
+
+    <button mat-stroked-button
+            routerLink="/product"
+            skipLocationChange>
+      Продукты
+    </button>
+
+    <div class="flex-grow-1"></div>
+
+    <button mat-stroked-button
+            routerLink="/order"
+            skipLocationChange>
+      Заказы
+    </button>
+
+    <div class="flex-grow-5"></div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.product {
+  margin: 20px;
+
+  &__description-field {
+    textarea {
+      resize: none;
+    }
+  }
+
+  &__organisation-settings-section {
+    margin: 10px;
+  }
+}

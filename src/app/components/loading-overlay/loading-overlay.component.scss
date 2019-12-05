@@ -1,0 +1,19 @@
+.loading-overlay {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: none;
+
+  &_active {
+    display: flex;
+  }
+
+  &__spinner-container {
+    width: 100px;
+    height: 100px;
+  }
+}

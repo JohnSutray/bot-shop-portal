@@ -1,0 +1,11 @@
+.product-item {
+  &__content {
+    object-fit: contain;
+    max-width: 330px;
+    max-height: 200px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

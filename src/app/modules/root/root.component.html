@@ -1,0 +1,42 @@
+<mat-sidenav-container style="height: 100vh">
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <div class="app__navigation-section flex-row">
+        <mat-icon svgIcon="t-bot"
+                  class="app__logo">
+        </mat-icon>
+
+        <div class="app__header"
+             routerLink="/home"
+             skipLocationChange>
+          {{ authorizationService.isSigned ? authorizationService.botName : 'Import shop portal' }}
+        </div>
+
+        <button mat-button
+                routerLink="product"
+                skipLocationChange>
+          Продукты
+        </button>
+
+        <button mat-button
+                routerLink="order"
+                skipLocationChange>
+          Заказы
+        </button>
+
+        <div class="flex-grow-1"></div>
+
+        <button mat-stroked-button
+                *ngIf="authorizationService.isSigned"
+                (click)="signOut()">
+          Выход
+        </button>
+      </div>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+<app-loading-overlay></app-loading-overlay>

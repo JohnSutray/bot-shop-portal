@@ -1,0 +1,43 @@
+<div class="paginator flex-row">
+  <div class="flex-row">
+    <mat-form-field appearance="outline"
+                    class="paginator__selection">
+      <mat-label>Страница</mat-label>
+      <mat-select [formControl]="pageControl"
+                  (selectionChange)="updatePageOptions()">
+        <mat-option *ngFor="let p of pages"
+                    [value]="p">
+          {{p}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline"
+                    class="paginator__selection">
+      <mat-label>Размер</mat-label>
+      <mat-select [formControl]="limitControl"
+                  (selectionChange)="updatePageOptions()">
+        <mat-option *ngFor="let size of sizes"
+                    [value]="size">
+          {{size}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="paginator__navigation flex-row flex-grow-1">
+    <button mat-mini-fab
+            [disabled]="previousDisabled"
+            (click)="previous()">
+      <mat-icon>arrow_left</mat-icon>
+    </button>
+
+    <div class="flex-grow-1"></div>
+
+    <button mat-mini-fab
+            [disabled]="nextDisabled"
+            (click)="next()">
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+  </div>
+</div>

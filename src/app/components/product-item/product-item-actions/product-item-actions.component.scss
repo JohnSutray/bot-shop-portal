@@ -1,0 +1,11 @@
+.product-item-actions {
+  &__container {
+    position: absolute;
+    right: 10px;
+    top: -25px;
+  }
+
+  &__edit {
+    margin-right: 20px;
+  }
+}

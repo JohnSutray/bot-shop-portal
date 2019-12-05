@@ -1,0 +1,36 @@
+<div class="product-item-actions__container flex-row">
+  <ng-container *ngIf="!inFormState else formCardActions">
+    <button class="product-item-actions__edit" mat-mini-fab
+            color="accent"
+            (click)="edit.next()">
+      <mat-icon>
+        edit
+      </mat-icon>
+    </button>
+
+    <button mat-mini-fab
+            (click)="remove.next()"
+            color="accent">
+      <mat-icon>
+        delete
+      </mat-icon>
+    </button>
+  </ng-container>
+</div>
+
+<ng-template #formCardActions>
+  <button mat-mini-fab
+          class="product-item-actions__edit"
+          color="primary"
+          [disabled]="formInvalid"
+          (click)="submitChanges.next()">
+    <mat-icon>done</mat-icon>
+  </button>
+
+  <button mat-mini-fab
+          color="warn"
+          *ngIf="inFormState"
+          (click)="cancel.next()">
+    <mat-icon>close</mat-icon>
+  </button>
+</ng-template>

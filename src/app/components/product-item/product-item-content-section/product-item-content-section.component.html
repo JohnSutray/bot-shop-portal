@@ -1,0 +1,15 @@
+<ng-container [ngSwitch]="displayType">
+  <img *ngSwitchCase="EDisplayType.IMAGE"
+       class="product-item__content"
+       mat-card-image
+       [src]="imageUrl || imagePlaceholder"
+       [alt]="LabelsConstants.PRODUCT_IMAGE">
+
+  <video *ngSwitchCase="EDisplayType.VIDEO"
+         class="product-item__content"
+         mat-card-image
+         controls
+         #videoElement>
+    <source src="" #videoElementSource>
+  </video>
+</ng-container>

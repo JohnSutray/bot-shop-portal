@@ -1,0 +1,12 @@
+.paginator {
+  width: 320px;
+
+  &__selection {
+    width: 100px;
+    margin: 5px;
+  }
+
+  &__navigation {
+    margin-top: 20px;
+  }
+}

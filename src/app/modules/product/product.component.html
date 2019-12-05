@@ -1,0 +1,42 @@
+<div class="flex-column">
+  <div class="product__navigation flex-row">
+    <app-paginator [pageResult]="pageResult | async"
+                   (paginateOptions)="updateProducts($event)">
+    </app-paginator>
+
+    <div class="flex-grow-5"></div>
+
+    <app-product-filter [allCategories]="allCategories | async"
+                        (productPattern)="setProductPattern($event)">
+    </app-product-filter>
+
+    <div class="flex-grow-1"></div>
+  </div>
+
+  <div class="flex-row flex-wrap">
+
+    <app-product-item *ngFor="let product of products | async"
+                      (update)="onProductUpdate()"
+                      [product]="product">
+    </app-product-item>
+
+    <app-product-item *ngIf="isCreateMode"
+                      (update)="onProductUpdate()"
+                      (cancel)="isCreateMode = false"
+                      [inCreateMode]="true">
+    </app-product-item>
+
+    <div *ngIf="!isCreateMode"
+         class="product-list__add-product-section flex-row flex-center">
+      <div class="product-list__add-product-container flex-column flex-center">
+        <div class="flex-row flex-center">
+          <button mat-fab
+                  (click)="isCreateMode = true">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <p>Добавить новый продукт</p>
+      </div>
+    </div>
+  </div>
+</div>

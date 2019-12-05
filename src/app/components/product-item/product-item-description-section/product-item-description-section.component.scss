@@ -1,0 +1,8 @@
+.product-item {
+  &__description-field {
+    width: 100%;
+    textarea {
+      resize: none;
+    }
+  }
+}
