@@ -16,7 +16,6 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError(errorResponse => {
-        console.log(errorResponse);
         const header = 'Что-то пошло не так...';
         const defaultMessage = errorResponse.message;
         const customMessages = this.getCustomErrorMessages(errorResponse);

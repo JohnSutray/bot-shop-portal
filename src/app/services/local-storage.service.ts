@@ -7,7 +7,6 @@ export class LocalStorageService {
   private readonly storage = localStorage;
 
   put<TValue>(key: string, value: TValue): void {
-    console.log(value);
     this.storage.setItem(key, JSON.stringify(value));
   }
 

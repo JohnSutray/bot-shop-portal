@@ -1,0 +1,18 @@
+<div *ngIf="!(isCreateMode | async) else createComponent"
+     class="add-product__container flex-row flex-center"
+     (click)="isCreateMode.next(true)">
+  <div class="flex-column flex-center">
+    <div class="flex-column">
+      <div class="flex-row flex-center">
+        <mat-icon>add</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createComponent>
+  <app-product-item (update)="created.next($event); isCreateMode.next(false)"
+                    (cancel)="isCreateMode.next(false)"
+                    [inCreateMode]="true">
+  </app-product-item>
+</ng-template>

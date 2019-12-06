@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://import-shop-api.premium-okna.by',
+  apiUrl: 'http://li2049-167.members.linode.com',
 };

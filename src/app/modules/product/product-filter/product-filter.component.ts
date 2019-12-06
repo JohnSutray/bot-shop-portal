@@ -17,7 +17,7 @@ export class ProductFilterComponent implements OnChanges, OnInit {
   typeControl = new FormControl();
 
   get allTypes(): string[] {
-    return this.categoryControl.value.productTypes || []
+    return this.categoryControl.value.productTypes || [];
   }
 
   updateProductPattern() {
@@ -31,8 +31,6 @@ export class ProductFilterComponent implements OnChanges, OnInit {
     if (!changes.allCategories) {
       return;
     }
-
-    console.log(this.allCategories);
 
     this.categoryControl.setValue(this.allCategories[0]);
     this.trySetType();

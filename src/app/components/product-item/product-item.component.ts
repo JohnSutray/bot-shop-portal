@@ -8,8 +8,10 @@ import { ProductCategory } from '../../models/product-category.model';
 import { switchMap, tap } from 'rxjs/operators';
 import { ProductService } from '../../services/product.service';
 import { EDisplayType } from '../../enums/display-type.enum';
-import * as S3 from 'aws-sdk/clients/s3';
+import { DeleteObjectOutput, ManagedUpload } from 'aws-sdk/clients/s3';
 import { LabelsConstants } from '../../constants/labels.constants';
+import { InfoDialogService } from '../../services/info-dialog.service';
+import { InfoDialogData } from '../../models/info-dialog-data.model';
 
 @Component({
   selector: 'app-product-item',
@@ -20,6 +22,7 @@ export class ProductItemComponent implements OnInit {
   constructor(
     private readonly imageUploadService: UploadService,
     private readonly productService: ProductService,
+    private readonly infoDialogService: InfoDialogService,
   ) {
   }
 
@@ -28,6 +31,7 @@ export class ProductItemComponent implements OnInit {
 
   @Output() update = new Subject<Product>();
   @Output() cancel = new Subject<any>();
+  @Output() remove = new Subject<Product>();
 
   inNewCategoryMode: boolean;
   inNewTypeMode: boolean;
@@ -109,28 +113,38 @@ export class ProductItemComponent implements OnInit {
     this.allTypes = types;
   }
 
-  setFileAndDisplayType(file: File) {
+  setFileAndDisplayType(file: File): void {
     this.contentFile = file;
 
-    switch (this.contentFile.type) {
-      case 'image/jpeg':
-      case 'image/png':
+    if (FileUtils.isImage(file)) {
+      if (FileUtils.inSizeLimit(file, 2)) {
         this.displayTypeControl.setValue(EDisplayType.IMAGE);
         FileUtils.toBase64(this.contentFile).subscribe(this.setImagePreview);
-        break;
-      case 'video/mp4':
+      } else {
+        const imageSizeError = new InfoDialogData(LabelsConstants.SO_WILL_NOT_GO, [LabelsConstants.IMAGE_SIZE_LIMIT_ERROR]);
+        this.infoDialogService.open(imageSizeError);
+        return;
+      }
+    }
+
+    if (FileUtils.isVideo(file)) {
+      if (FileUtils.inSizeLimit(file, 20)) {
         this.displayTypeControl.setValue(EDisplayType.VIDEO);
         this.videoPreviewUrl = URL.createObjectURL(this.contentFile);
-        break;
+      } else {
+        const videoSizeError = new InfoDialogData(LabelsConstants.SO_WILL_NOT_GO, [LabelsConstants.VIDEO_SIZE_LIMIT_ERROR]);
+        this.infoDialogService.open(videoSizeError);
+        return;
+      }
     }
 
     this.contentUrlControl.updateValueAndValidity();
   }
 
-  removeProduct() {
+  removeProduct(): void {
     this.requestRemoveCurrent().pipe(
       switchMap(() => this.productService.remove(this.product.id)),
-      tap(() => this.update.next()),
+      tap(result => this.remove.next(result)),
     ).subscribe();
   }
 
@@ -198,15 +212,15 @@ export class ProductItemComponent implements OnInit {
     );
   }
 
-  private requestFileUpload = (): Observable<S3.ManagedUpload.SendData> => {
+  private requestFileUpload = (): Observable<ManagedUpload.SendData> => {
     return this.imageUploadService.uploadObject(this.contentFile, 'import-shop-bot');
   };
 
-  private setNewUrl = (result: S3.ManagedUpload.SendData): void => {
+  private setNewUrl = (result: ManagedUpload.SendData): void => {
     this.contentUrlControl.setValue(result.Location);
   };
 
-  private requestRemoveCurrent(): Observable<S3.DeleteObjectOutput> {
+  private requestRemoveCurrent(): Observable<DeleteObjectOutput> {
     return this.imageUploadService.removeObject(this.product.contentUrl, 'import-shop-bot');
   }
 

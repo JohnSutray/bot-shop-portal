@@ -25,17 +25,15 @@ export class ProductComponent implements OnInit {
   readonly allCategories = new BehaviorSubject<ProductCategory[]>([]);
   readonly products = this.pageResult.pipe(map(page => page.docs));
 
-  productPattern: Product;
-  isCreateMode: boolean;
+  productPattern: Product | object;
 
   constructor(
     private readonly productService: ProductService,
   ) {
   }
 
-  onProductUpdate() {
-    this.isCreateMode = false;
-    this.updateCategories();
+  onProductUpdate(product: Product) {
+    this.setProductPattern({ type: product.type, category: product.category });
   }
 
   updateProducts(paginateOptions: PaginateOptions<any>) {
@@ -44,7 +42,7 @@ export class ProductComponent implements OnInit {
     ).subscribe(page => this.pageResult.next(page));
   }
 
-  setProductPattern(productPattern: Product): void {
+  setProductPattern(productPattern: Product | object): void {
     this.productPattern = productPattern;
     this.updateProducts(new PaginateOptions<any>(1, 50));
   }

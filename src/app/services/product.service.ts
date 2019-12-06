@@ -6,7 +6,6 @@ import { PageResult } from '../models/page-result.model';
 import { ProductCategory } from '../models/product-category.model';
 import { PaginateSettings } from '../models/paginate-pattern.model';
 import { environment } from '../../environments/environment';
-import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +29,7 @@ export class ProductService {
   }
 
   getAllCategories(): Observable<ProductCategory[]> {
-    return this.httpClient.get<ProductCategory[]>(`${environment.apiUrl}/product/category/all`).pipe(tap(console.log));
+    return this.httpClient.get<ProductCategory[]>(`${environment.apiUrl}/product/category/all`);
   }
 
   create(product: Product): Observable<Product> {

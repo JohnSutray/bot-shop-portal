@@ -30,7 +30,6 @@ export class AuthorizationService {
 
   signIn(token: string): Observable<boolean> {
     return this.botManagementService.getBotName(token).pipe(
-      tap(console.log),
       catchError(() => of('')),
       tap(result => this.name = result),
       tap(result => result && this.localStorageService.put('bottoken', token)),

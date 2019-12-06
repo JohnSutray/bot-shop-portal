@@ -1,5 +1,10 @@
+@import "../../../styles";
+
 .product {
+  @extend .scale-on-hover;
+
   margin: 20px;
+
 
   &__description-field {
     textarea {

@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } fro
 import { EDisplayType } from '../../../enums/display-type.enum';
 import { LabelsConstants } from '../../../constants/labels.constants';
 import { ImageConstants } from '../../../constants/image.constants';
+import { XhrFactory } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-item-content-section',
@@ -14,6 +15,7 @@ export class ProductItemContentSectionComponent implements OnChanges {
   readonly imagePlaceholder = ImageConstants.PRODUCT_IMAGE_PLACEHOLDER;
 
   @ViewChild('videoElement') videoElement: ElementRef<HTMLVideoElement>;
+  @ViewChild('imageElement') imageElement: ElementRef<HTMLImageElement>;
   @ViewChild('videoElementSource') videoElementSource: ElementRef<HTMLSourceElement>;
 
   @Input() displayType: EDisplayType;
@@ -27,7 +29,7 @@ export class ProductItemContentSectionComponent implements OnChanges {
   }
 
   private reloadVideoPreview = (source: string): void => {
-    if (!source) {
+    if (!source || this.displayType !== EDisplayType.VIDEO) {
       return;
     }
 

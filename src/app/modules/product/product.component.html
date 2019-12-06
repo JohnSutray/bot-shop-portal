@@ -14,29 +14,16 @@
   </div>
 
   <div class="flex-row flex-wrap">
+    <app-add-product-button (created)="onProductUpdate($event)">
+    </app-add-product-button>
 
     <app-product-item *ngFor="let product of products | async"
-                      (update)="onProductUpdate()"
+                      (update)="onProductUpdate($event)"
+                      (remove)="updateCategories()"
                       [product]="product">
     </app-product-item>
 
-    <app-product-item *ngIf="isCreateMode"
-                      (update)="onProductUpdate()"
-                      (cancel)="isCreateMode = false"
-                      [inCreateMode]="true">
-    </app-product-item>
-
-    <div *ngIf="!isCreateMode"
-         class="product-list__add-product-section flex-row flex-center">
-      <div class="product-list__add-product-container flex-column flex-center">
-        <div class="flex-row flex-center">
-          <button mat-fab
-                  (click)="isCreateMode = true">
-            <mat-icon>add</mat-icon>
-          </button>
-        </div>
-        <p>Добавить новый продукт</p>
-      </div>
-    </div>
+    <app-add-product-button (created)="onProductUpdate($event)">
+    </app-add-product-button>
   </div>
 </div>

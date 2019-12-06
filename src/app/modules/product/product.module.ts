@@ -7,12 +7,14 @@ import { ProductRoutingModule } from './product-routing.module';
 import { PaginatorModule } from '../../components/paginator/paginator.module';
 import { ProductFilterComponent } from './product-filter/product-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddProductButtonComponent } from './add-product-button/add-product-button.component';
 
 
 @NgModule({
   declarations: [
     ProductComponent,
     ProductFilterComponent,
+    AddProductButtonComponent,
   ],
   imports: [
     ProductRoutingModule,

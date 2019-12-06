@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 
 html, body {
@@ -50,4 +49,12 @@ body {
 
 .align-flex-end {
   align-items: flex-end;
+}
+
+.scale-on-hover {
+  transition: all .2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }

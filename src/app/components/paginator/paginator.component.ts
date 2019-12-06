@@ -25,7 +25,7 @@ export class PaginatorComponent implements OnChanges {
   }
 
   get sizes(): number[] {
-    return [5, 10, 15, 20, 25, 30, 35, 40, 50];
+    return [5, 10, 15, 20, 25, 30, 35, 40, 50, 100, 150];
   }
 
   get nextDisabled(): boolean {
