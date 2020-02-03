@@ -1,4 +1,4 @@
-.product {
+.product-item {
   margin: 20px;
 
   &__description-field {
@@ -9,5 +9,15 @@
 
   &__organisation-settings-section {
     margin: 10px;
+  }
+
+  &__actions {
+    &-container {
+      position: relative;
+    }
+
+    position: absolute;
+    top: -43px;
+    right: 0;
   }
 }

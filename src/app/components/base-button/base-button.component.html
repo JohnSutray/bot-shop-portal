@@ -1,0 +1,75 @@
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>
+
+<ng-template #iconContent>
+  <mat-icon>{{icon}}</mat-icon>
+</ng-template>
+
+<ng-container [ngSwitch]="type">
+  <button *ngSwitchCase="simpleButton"
+          mat-button
+          type="button"
+          [color]="color"
+          [ngClass]="buttonClass"
+          class="flex-grow-1"
+          [disabled]="disabled"
+          (click)="buttonClick.next()">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+
+  <button *ngSwitchCase="raisedButton"
+          mat-raised-button
+          type="button"
+          [color]="color"
+          [ngClass]="buttonClass"
+          class="flex-grow-1"
+          [disabled]="disabled"
+          (click)="buttonClick.next()">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+
+  <button *ngSwitchCase="strokedButton"
+          mat-stroked-button
+          type="button"
+          [color]="color"
+          [ngClass]="buttonClass"
+          class="flex-grow-1"
+          [disabled]="disabled"
+          (click)="buttonClick.next()">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </button>
+
+  <button *ngSwitchCase="iconButton"
+          mat-icon-button
+          type="button"
+          [color]="color"
+          [ngClass]="buttonClass"
+          class="flex-grow-1"
+          [disabled]="disabled"
+          (click)="buttonClick.next()">
+    <ng-container [ngTemplateOutlet]="iconContent"></ng-container>
+  </button>
+
+  <button *ngSwitchCase="fabButton"
+          mat-fab
+          type="button"
+          [ngClass]="buttonClass"
+          class="flex-grow-1"
+          [color]="color"
+          [disabled]="disabled"
+          (click)="buttonClick.next()">
+    <ng-container *ngTemplateOutlet="icon ? iconContent : content"></ng-container>
+  </button>
+
+  <button *ngSwitchCase="miniFabButton"
+          mat-mini-fab
+          type="button"
+          [color]="color"
+          [ngClass]="buttonClass"
+          class="flex-grow-1"
+          [disabled]="disabled"
+          (click)="buttonClick.next()">
+    <ng-container *ngTemplateOutlet="icon ? iconContent : content"></ng-container>
+  </button>
+</ng-container>

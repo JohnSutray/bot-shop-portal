@@ -1,0 +1,11 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{label}}</mat-label>
+  <mat-select [formControl]="control"
+              (selectionChange)="selectionChange.next($event.value)">
+    <mat-option *ngFor="let item of items"
+                [value]="item">
+      {{itemMapper(item)}}
+    </mat-option>
+    <ng-content></ng-content>
+  </mat-select>
+</mat-form-field>

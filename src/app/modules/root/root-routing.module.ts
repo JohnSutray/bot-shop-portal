@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthorizationGuard } from '../../guards/authorization.guard';
+import { AuthenticationGuard } from '../../guards/authentication.guard';
 
 
 const routes: Routes = [
   {
     path: 'product',
-    canActivate: [AuthorizationGuard],
-    loadChildren: '../product/product.module#ProductModule',
+    canActivate: [AuthenticationGuard],
+    loadChildren: () => import('../product/product.module').then(m => m.ProductModule),
   },
   {
     path: 'order',
-    canActivate: [AuthorizationGuard],
-    loadChildren: '../order/order.module#OrderModule',
+    canActivate: [AuthenticationGuard],
+    loadChildren: () => import('../order/order.module').then(m => m.OrderModule),
   },
   {
-    path: 'sign-in',
-    loadChildren: '../sign-in/sign-in.module#SignInModule',
+    path: 'account',
+    loadChildren: () => import('../account/account.module').then(m => m.AccountModule),
   },
   {
     path: 'home',
-    canActivate: [AuthorizationGuard],
-    loadChildren: '../home/home.module#HomeModule',
+    canActivate: [AuthenticationGuard],
+    loadChildren: () => import('../home/home.module').then(m => m.HomeModule),
   },
   {
     path: '**',

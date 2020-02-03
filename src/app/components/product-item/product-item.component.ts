@@ -1,15 +1,13 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Product } from '../../models/product.model';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { UploadService } from '../../services/upload.service';
-import { FileUtils } from '../../utils/file-utils';
 import { ProductCategory } from '../../models/product-category.model';
-import { switchMap, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { ProductService } from '../../services/product.service';
-import { EDisplayType } from '../../enums/display-type.enum';
-import * as S3 from 'aws-sdk/clients/s3';
 import { LabelsConstants } from '../../constants/labels.constants';
+import { EDisplayType } from '../../enums/display-type.enum';
+import { stubPipeOnError } from '../../utils/rxjs.utils';
 
 @Component({
   selector: 'app-product-item',
@@ -18,7 +16,6 @@ import { LabelsConstants } from '../../constants/labels.constants';
 })
 export class ProductItemComponent implements OnInit {
   constructor(
-    private readonly imageUploadService: UploadService,
     private readonly productService: ProductService,
   ) {
   }
@@ -29,58 +26,63 @@ export class ProductItemComponent implements OnInit {
   @Output() update = new Subject<Product>();
   @Output() cancel = new Subject<any>();
 
-  inNewCategoryMode: boolean;
-  inNewTypeMode: boolean;
   inEditMode = false;
-  allCategories: ProductCategory[] = [];
-  allTypes: string[] = [];
-  contentFile: File;
+  allCategories: ProductCategory[] = null;
+  mediaFile: File;
 
   readonly LabelsConstants = LabelsConstants;
-  readonly nameControl = new FormControl('', [Validators.required]);
-  readonly priceControl = new FormControl('', [Validators.required]);
+  readonly nameControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
+  readonly priceControl = new FormControl('', [Validators.required, Validators.min(0.1)]);
   readonly descriptionControl = new FormControl('', [Validators.required]);
   readonly categoryControl = new FormControl('', [Validators.required]);
   readonly typeControl = new FormControl('', [Validators.required]);
-  readonly contentUrlControl = new FormControl('', [() => this.contentValidator()]);
-  readonly displayTypeControl = new FormControl('', [Validators.required]);
 
   readonly productFormGroup = new FormGroup({
     name: this.nameControl,
     description: this.descriptionControl,
     price: this.priceControl,
-    contentUrl: this.contentUrlControl,
-    displayType: this.displayTypeControl,
     category: this.categoryControl,
     type: this.typeControl,
   });
-
-  private imagePreviewUrl: string;
-  private videoPreviewUrl: string;
 
   get inFormState(): boolean {
     return this.inCreateMode || this.inEditMode;
   }
 
-  get imageUrl(): string {
-    if (!this.inFormState || this.inEditMode && !this.imagePreviewUrl) {
-      return this.product.contentUrl;
-    }
-
-    return this.imagePreviewUrl;
-  }
-
-  get videoUrl(): string {
-    if (!this.inFormState || this.inEditMode && !this.videoPreviewUrl) {
-      return this.product.contentUrl;
-    }
-
-    return this.videoPreviewUrl;
-  }
-
   get formInvalid(): boolean {
-    return this.productFormGroup.invalid
-      || (this.inCreateMode && !this.contentFile);
+    if (this.inCreateMode && !this.mediaFile) {
+      return false;
+    }
+
+    return this.productFormGroup.invalid;
+  }
+
+  get mediaUrl(): string {
+    return this.product && this.product.mediaUrl;
+  }
+
+  get defaultCategory(): string {
+    return this.inEditMode && this.product.category;
+  }
+
+  get defaultType(): string {
+    return this.inEditMode && this.product.type;
+  }
+
+  get productForm(): FormData {
+    const form = new FormData();
+
+    form.append('name', this.nameControl.value);
+    form.append('price', this.priceControl.value);
+    form.append('description', this.descriptionControl.value);
+    form.append('type', this.typeControl.value);
+    form.append('category', this.categoryControl.value);
+
+    if (this.mediaFile) {
+      form.append('media', this.mediaFile);
+    }
+
+    return form;
   }
 
   ngOnInit(): void {
@@ -97,58 +99,20 @@ export class ProductItemComponent implements OnInit {
     this.resetEditModeDefaults();
   }
 
-  submitChanges() {
-    this.uploadContent().pipe(
-      switchMap(this.commitChanges),
-      tap(this.afterCommit),
-    ).subscribe();
-  }
+  submitChanges = (): Subscription => this.commitChanges()
+    .pipe(stubPipeOnError)
+    .subscribe(this.afterCommit);
 
-
-  setTypes(types: string[]) {
-    this.allTypes = types;
-  }
-
-  setFileAndDisplayType(file: File) {
-    this.contentFile = file;
-
-    switch (this.contentFile.type) {
-      case 'image/jpeg':
-      case 'image/png':
-        this.displayTypeControl.setValue(EDisplayType.IMAGE);
-        FileUtils.toBase64(this.contentFile).subscribe(this.setImagePreview);
-        break;
-      case 'video/mp4':
-        this.displayTypeControl.setValue(EDisplayType.VIDEO);
-        this.videoPreviewUrl = URL.createObjectURL(this.contentFile);
-        break;
-    }
-
-    this.contentUrlControl.updateValueAndValidity();
+  setFile(file: File) {
+    this.mediaFile = file;
   }
 
   removeProduct() {
-    this.requestRemoveCurrent().pipe(
-      switchMap(() => this.productService.remove(this.product.id)),
-      tap(() => this.update.next()),
-    ).subscribe();
-  }
-
-  removeFileAndPlaceholder() {
-    this.contentFile = null;
-    this.imagePreviewUrl = null;
-    this.videoPreviewUrl = null;
-    this.displayTypeControl.setValue(this.inCreateMode ? EDisplayType.IMAGE : this.product.displayType);
-  }
-
-  setNewCategoryDefaultValues(): void {
-    if (!this.inNewCategoryMode) {
-      return;
-    }
-
-    this.inNewTypeMode = true;
-    this.categoryControl.setValue('Новая категория');
-    this.typeControl.setValue('Новый тип');
+    this.productService.remove(this.product.id)
+      .pipe(stubPipeOnError)
+      .subscribe(
+      () => this.update.next(this.product),
+    );
   }
 
   cancelChanges() {
@@ -157,8 +121,6 @@ export class ProductItemComponent implements OnInit {
     this.cancel.next();
   }
 
-  private setImagePreview = (imageUrl: string) => this.imagePreviewUrl = imageUrl;
-
   private fetchOptions() {
     this.productService.getAllCategories().pipe(
       tap(categories => this.allCategories = categories),
@@ -166,60 +128,24 @@ export class ProductItemComponent implements OnInit {
   }
 
   private resetCreateModeDefaults(): void {
-    this.nameControl.setValue('Имя');
+    this.nameControl.setValue('Имя продукта');
+    this.priceControl.setValue(1);
     this.descriptionControl.setValue('Описание');
-    this.priceControl.setValue(null);
-    this.contentUrlControl.setValue(null);
-    this.displayTypeControl.setValue(EDisplayType.IMAGE);
+    this.typeControl.setValue('Категория');
+    this.categoryControl.setValue('Тип продукта');
   }
 
   private resetEditModeDefaults(): void {
     this.nameControl.setValue(this.product.name);
     this.priceControl.setValue(this.product.price);
     this.descriptionControl.setValue(this.product.description);
-    this.contentUrlControl.setValue(this.product.contentUrl);
-    this.displayTypeControl.setValue(this.product.displayType);
     this.categoryControl.setValue(this.product.category);
     this.typeControl.setValue(this.product.type);
   }
 
-  private uploadContent(): Observable<any> {
-    if (!this.contentFile) {
-      return of({});
-    }
-
-    const removePreviousContent = this.inEditMode
-      ? this.requestRemoveCurrent()
-      : of({});
-
-    return removePreviousContent.pipe(
-      switchMap(this.requestFileUpload),
-      tap(this.setNewUrl),
-    );
-  }
-
-  private requestFileUpload = (): Observable<S3.ManagedUpload.SendData> => {
-    return this.imageUploadService.uploadObject(this.contentFile, 'import-shop-bot');
-  };
-
-  private setNewUrl = (result: S3.ManagedUpload.SendData): void => {
-    this.contentUrlControl.setValue(result.Location);
-  };
-
-  private requestRemoveCurrent(): Observable<S3.DeleteObjectOutput> {
-    return this.imageUploadService.removeObject(this.product.contentUrl, 'import-shop-bot');
-  }
-
-  private contentValidator(): ValidationErrors | null {
-    return this.inCreateMode && !this.contentFile
-    || this.inEditMode && !this.contentUrlControl.value
-      ? { imageControl: false }
-      : null;
-  }
-
   private commitChanges = (): Observable<Product> => this.inEditMode
-    ? this.productService.update(this.product.id, this.productFormGroup.value)
-    : this.productService.create(this.productFormGroup.value);
+    ? this.productService.update(this.product.id, this.productForm)
+    : this.productService.create(this.productForm);
 
   private afterCommit = (product: Product) => {
     this.resetToDefaults();
@@ -232,13 +158,7 @@ export class ProductItemComponent implements OnInit {
       ? this.resetCreateModeDefaults()
       : this.resetEditModeDefaults();
 
-    this.resetCommonDefaults();
-    this.removeFileAndPlaceholder();
-  }
-
-  private resetCommonDefaults(): void {
-    this.inNewCategoryMode = false;
-    this.inNewTypeMode = false;
+    this.setFile(null);
   }
 
   private leaveEditMode(): void {

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { InfoDialogService } from '../services/info-dialog.service';
 import { InfoDialogData } from '../models/info-dialog-data.model';
+import { LabelsConstants } from '../constants/labels.constants';
 
 @Injectable()
 export class ErrorHandleInterceptor implements HttpInterceptor {
@@ -15,30 +16,18 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError(errorResponse => {
-        console.log(errorResponse);
-        const header = 'Что-то пошло не так...';
-        const defaultMessage = errorResponse.message;
-        const customMessages = this.getCustomErrorMessages(errorResponse);
-        const messages = customMessages.length
-          ? customMessages
-          : [defaultMessage];
-
-        this.infoDialogService.open(new InfoDialogData(header, messages));
-
-        return throwError(errorResponse);
-      }),
+      catchError(this.displayAndThrowError),
     );
   }
 
-  getCustomErrorMessages(errorResponse: any): string[] {
-    const customError = errorResponse.error.message;
+  displayAndThrowError = (error: HttpErrorResponse): Observable<never> => {
+    this.infoDialogService.open(
+      new InfoDialogData(
+        LabelsConstants.SOMETHING_IS_WRONG,
+        error.error,
+      ),
+    );
 
-    const isString = typeof customError === 'string';
-    const isArray = customError instanceof Array;
-
-    return isString && [customError]
-      || isArray && customError
-      || [];
-  }
+    return throwError(error);
+  };
 }

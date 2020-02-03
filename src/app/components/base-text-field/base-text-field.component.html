@@ -1,0 +1,44 @@
+<mat-form-field appearance="outline"
+                [class]="fieldClass">
+  <mat-label>{{label}}</mat-label>
+
+  <input matInput
+         autocomplete="off"
+         [type]="fieldType"
+         [formControl]="control"
+         [maxLength]="maxLength">
+
+  <mat-icon *ngIf="suffixIcon"
+            (click)="handleSuffixClick($event)"
+            [matMenuTriggerFor]="hintsMenu"
+            style="cursor: pointer"
+            matSuffix>
+    {{suffixIcon}}
+  </mat-icon>
+
+  <mat-menu #hintsMenu
+            xPosition="before">
+    <button mat-menu-item
+            *ngFor="let hint of hints"
+            (click)="control.setValue(hint)">
+      {{hint}}
+    </button>
+  </mat-menu>
+
+  <mat-hint *ngIf="!isNumber"
+            align="end">
+    {{currentLength}} / {{maxLength}}
+  </mat-hint>
+
+  <mat-error *ngIf="hasRequiredError">
+    {{LabelsConstants.YOU_MUST_ENTER_VALUE}}
+  </mat-error>
+
+  <mat-error *ngIf="minLengthError">
+    {{LabelsConstants.MIN_LENGTH_ERROR(minLengthError.requiredLength)}}
+  </mat-error>
+
+  <mat-error *ngIf="isNumber && minValueError">
+    {{ LabelsConstants.MIN_VALUE_ERROR(minValueError.min) }}
+  </mat-error>
+</mat-form-field>

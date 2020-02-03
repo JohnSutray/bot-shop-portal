@@ -1,0 +1,23 @@
+.view-section {
+  border-radius: 5px;
+  margin: 5px;
+  padding: 10px;
+  background-color: #494949;
+
+  &__category {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 7px;
+  }
+
+  &__type {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  &__content {
+    font-size: 15px;
+    font-weight: 500;
+  }
+}

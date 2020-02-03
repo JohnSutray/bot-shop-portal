@@ -1,0 +1,12 @@
+<app-action-panel *ngIf="!(isCreateMode | async) else createComponent"
+                  actionIcon="add"
+                  actionText="Создать продукт"
+                  (click)="isCreateMode.next(true)">
+</app-action-panel>
+
+<ng-template #createComponent>
+  <app-product-item (update)="created.next($event); isCreateMode.next(false)"
+                    (cancel)="isCreateMode.next(false)"
+                    [inCreateMode]="true">
+  </app-product-item>
+</ng-template>

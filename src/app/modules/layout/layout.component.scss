@@ -1,0 +1,15 @@
+.layout {
+  height: 100vh;
+
+  &__logo {
+    cursor: pointer;
+  }
+
+  &__navigation {
+    width: 100%;
+
+    > * {
+      margin-left: 10px;
+    }
+  }
+}

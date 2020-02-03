@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { RootRoutingModule } from './root-routing.module';
 import { RootComponent } from './root.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatDialogModule, MatIconModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { LoadingOverlayModule } from '../../components/loading-overlay/loading-overlay.module';
 import { InfoDialogModule } from '../../components/info-dialog/info-dialog.module';
-import { AuthorizeModule } from '../authorize/authorize.module';
-import { InfoDialogService } from '../../services/info-dialog.service';
+import { AuthenticationModule } from '../authentication/authentication.module';
+import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -16,14 +16,11 @@ import { InfoDialogService } from '../../services/info-dialog.service';
   imports: [
     RootRoutingModule,
     InfoDialogModule,
-    AuthorizeModule,
+    AuthenticationModule,
     BrowserModule,
     BrowserAnimationsModule,
     LoadingOverlayModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
+    LayoutModule,
   ],
   bootstrap: [RootComponent],
 })

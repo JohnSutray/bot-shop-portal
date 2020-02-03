@@ -1,0 +1,21 @@
+<div class="media-preview flex-row flex-center">
+  <app-media-upload-section class="media-preview__upload-section"
+                            *ngIf="inFormState"
+                            (file)="mediaFile.next($event)"
+                            [inEditMode]="inFormState">
+  </app-media-upload-section>
+  <ng-container [ngSwitch]="displayType">
+    <img *ngSwitchCase="EDisplayType.IMAGE"
+         class="media-preview__content"
+         [class.media-preview__content_edit]="inFormState"
+         [alt]="LabelsConstants.PRODUCT_IMAGE"
+         #imageElement>
+
+    <video *ngSwitchCase="EDisplayType.VIDEO"
+           class="media-preview__content"
+           controls
+           #videoElement>
+      <source src="" #videoElementSource>
+    </video>
+  </ng-container>
+</div>

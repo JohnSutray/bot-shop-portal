@@ -1,37 +1,14 @@
-<div class="flex-row">
-  <div class="flex-grow-3"></div>
+<div class="paginator flex-row">
+  <app-base-select label="Страница"
+                   [items]="pageVariants"
+                   [itemMapper]="pageMapper"
+                   (selectionChange)="updatePageOptions()"
+                   [control]="pageControl">
+  </app-base-select>
 
-  <button mat-icon-button
-          [disabled]="previousDisabled"
-          (click)="previous()">
-    <mat-icon>arrow_left</mat-icon>
-  </button>
-
-  <mat-form-field appearance="outline">
-    <input matInput
-           [(ngModel)]="page"
-           [min]="1"
-           [max]="pageResult.totalPages"
-           (change)="updatePageOptions()">
-  </mat-form-field>
-
-  <div class="flex-grow-1"></div>
-
-  <mat-form-field appearance="outline">
-    <input matInput
-           [(ngModel)]="limit"
-           [min]="1"
-           [max]="pageResult.docs.length"
-           (change)="updatePageOptions()">
-  </mat-form-field>
-
-  <div class="flex-grow-1"></div>
-
-  <button mat-icon-button
-          [disabled]="nextDisabled"
-          (click)="next()">
-    <mat-icon>arrow_right</mat-icon>
-  </button>
-
-  <div class="flex-grow-3"></div>
+  <app-base-select label="Размер страницы"
+                   [items]="pageLimitVariants"
+                   (selectionChange)="updatePageOptions()"
+                   [control]="limitControl">
+  </app-base-select>
 </div>

@@ -1,17 +1,14 @@
-<div class="flex-row">
-  <mat-select [(ngModel)]="selectedCategory">
-    <mat-option *ngFor="let category of allCategories"
-                [value]="category">
-      {{category.name}}
-    </mat-option>
-  </mat-select>
+<div class="product-filter flex-row">
+  <app-base-select [control]="categoryControl"
+                   label="Категория"
+                   [items]="categories || []"
+                   [itemMapper]="categoryMapper"
+                   (selectionChange)="updateProductPattern()">
+  </app-base-select>
 
-  <mat-select *ngIf="selectedCategory"
-              [(ngModel)]="selectedType">
-    <mat-option *ngFor="let type of selectedCategory.productTypes"
-                [value]="type"
-                (onSelectionChange)="updateProductPattern()">
-    </mat-option>
-  </mat-select>
-
+  <app-base-select [control]="typeControl"
+                   label="Тип"
+                   [items]="category?.types || []"
+                   (selectionChange)="updateProductPattern()">
+  </app-base-select>
 </div>

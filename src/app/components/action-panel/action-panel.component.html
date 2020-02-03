@@ -1,0 +1,16 @@
+<div class="action-panel flex-row flex-center scale-on-hover">
+  <div class="flex-column flex-center">
+    <div class="flex-grow-3"></div>
+    <div class="flex-row flex-center">
+      <mat-icon *ngIf="actionIconSvg"
+                [svgIcon]="actionIconSvg">
+      </mat-icon>
+      <mat-icon *ngIf="actionIcon">
+        {{actionIcon}}
+      </mat-icon>
+    </div>
+    <div class="flex-grow-2"></div>
+    <div>{{actionText}}</div>
+    <div class="flex-grow-1"></div>
+  </div>
+</div>

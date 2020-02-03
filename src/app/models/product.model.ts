@@ -1,10 +1,7 @@
-import { EDisplayType } from '../enums/display-type.enum';
-
 export class Product {
   constructor(
     public id: string,
-    public contentUrl: string,
-    public displayType: EDisplayType,
+    public mediaUrl: string,
     public name: string,
     public description: string,
     public price: number,

@@ -1,0 +1,22 @@
+<div class="flex-column">
+  <button mat-mini-fab
+          color="accent"
+          (click)="openFileSelectDialog()">
+    <input class="display-none"
+           type="file"
+           accept="image/jpeg,image/png,video/mp4"
+           (input)="selectFile()"
+           #fileInput>
+
+    <mat-icon>add_photo_alternate</mat-icon>
+  </button>
+
+  <p></p>
+
+  <button mat-mini-fab
+          color="accent"
+          *ngIf="file.value"
+          (click)="file.next(null)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

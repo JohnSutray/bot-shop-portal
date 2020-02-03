@@ -1,0 +1,16 @@
+<mat-sidenav-container class="layout">
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <div class="layout__navigation flex-row">
+        <mat-icon svgIcon="t-bot"></mat-icon>
+
+        <div class="layout__logo"
+             routerLink="/home">
+          {{ logoText }}
+        </div>
+      </div>
+    </mat-toolbar>
+
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,14 @@
+<div class="actions-section flex-row">
+  <app-base-button type="mini-fab"
+                   color="primary"
+                   [icon]="editActionIcon"
+                   [disabled]=""
+                   (buttonClick)="handleEditAction()">
+  </app-base-button>
+
+  <app-base-button type="mini-fab"
+                   color="warn"
+                   [icon]="cancelActionIcon"
+                   (buttonClick)="handleCancelAction()">
+  </app-base-button>
+</div>

@@ -20,11 +20,11 @@ export class OrderComponent implements OnInit {
     page: 1,
     hasPrevPage: false,
     hasNextPage: true,
-    docs: [],
+    items: [],
     totalPages: 2,
   });
   orders = this.orderPage.pipe(
-    map(page => page.docs),
+    map(page => page.items),
   );
 
   constructor(

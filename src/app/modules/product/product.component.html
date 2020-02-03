@@ -1,35 +1,25 @@
+<div class="product__page-configuration flex-row flex-center">
+  <div class="flex-row flex-no-wrap">
+    <app-paginator [pageResult]="pageResult"
+                   (paginateOptions)="updatePagination($event)">
+    </app-paginator>
+
+    <app-product-filter [categories]="categories"
+                        (productFilter)="updateProductFilter($event)">
+    </app-product-filter>
+  </div>
+</div>
+
 <div class="flex-row flex-wrap">
-  <app-paginator [pageResult]="pageResult | async"
-                 (paginateOptions)="updateProducts($event)">
-  </app-paginator>
+  <app-add-product-button (created)="onProductUpdate()">
+  </app-add-product-button>
 
-  <app-product-filter [allCategories]="allCategories | async"
-                      (productPattern)="setProductPattern($event)">
-  </app-product-filter>
-
-  <p></p>
-
-  <app-product-item *ngFor="let product of products | async"
+  <app-product-item *ngFor="let product of pageResult.items"
                     (update)="onProductUpdate()"
                     [product]="product">
   </app-product-item>
 
-  <app-product-item *ngIf="isCreateMode"
-                    (update)="onProductUpdate()"
-                    (cancel)="isCreateMode = false"
-                    [inCreateMode]="true">
-  </app-product-item>
-
-  <div *ngIf="!isCreateMode"
-       class="product-list__add-product-section flex-row flex-center">
-    <div class="product-list__add-product-container flex-column flex-center">
-      <div class="flex-row flex-center">
-        <button mat-fab
-                (click)="isCreateMode = true">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-      <p>Добавить новый продукт</p>
-    </div>
-  </div>
+  <app-add-product-button *ngIf="shouldShowSecondAddProductButton"
+                          (created)="onProductUpdate()">
+  </app-add-product-button>
 </div>

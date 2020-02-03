@@ -1,71 +1,51 @@
-<mat-card class="product">
-  <app-product-item-header [inFormState]="inFormState"
+<div [class.scale-on-hover]="!inFormState">
+  <mat-card class="product-item">
+    <div class="product-item__actions-container">
+      <app-actions-section class="product-item__actions"
+                           [formInvalid]="formInvalid"
                            [inEditMode]="inEditMode"
-                           [product]="product">
-  </app-product-item-header>
-
-  <app-product-item-content-management-section *ngIf="inFormState"
-                                               [inEditMode]="inEditMode"
-                                               (file)="setFileAndDisplayType($event)"
-                                               (removeFile)="removeFileAndPlaceholder()">
-  </app-product-item-content-management-section>
-
-  <app-product-item-content-section [displayType]="displayTypeControl.value"
-                                    [imageUrl]="imageUrl"
-                                    [videoUrl]="videoUrl">
-  </app-product-item-content-section>
-
-  <mat-card-content>
-    <app-product-item-view-section *ngIf="!inFormState"
-                                   [product]="product">
-    </app-product-item-view-section>
-
-    <div *ngIf="inFormState"
-         class="flex-column">
-      <app-product-item-name-section [nameControl]="nameControl">
-      </app-product-item-name-section>
-
-      <app-product-item-price-section [priceControl]="priceControl">
-      </app-product-item-price-section>
-
-      <app-product-item-description-section [descriptionControl]="descriptionControl">
-      </app-product-item-description-section>
-
-      <div class="product__organisation-settings-section flex-row">
-        <mat-slide-toggle color="primary"
-                          [(ngModel)]="inNewCategoryMode"
-                          (change)="setNewCategoryDefaultValues()">
-          {{LabelsConstants.NEW_CATEGORY}}
-        </mat-slide-toggle>
-
-        <div class="flex-grow-1"></div>
-
-        <mat-slide-toggle color="primary"
-                          [(ngModel)]="inNewTypeMode"
-                          [disabled]="inNewCategoryMode">
-          {{LabelsConstants.NEW_TYPE}}
-        </mat-slide-toggle>
-      </div>
-
-      <app-product-item-category-section (categorySelected)="setTypes($event.productTypes)"
-                                         [allCategories]="allCategories"
-                                         [categoryControl]="categoryControl"
-                                         [inNewCategoryMode]="inNewCategoryMode">
-      </app-product-item-category-section>
-
-      <app-product-item-type-section [allTypes]="allTypes"
-                                     [inNewTypeMode]="inNewTypeMode"
-                                     [typeControl]="typeControl">
-      </app-product-item-type-section>
-    </div>
-  </mat-card-content>
-
-  <app-product-item-footer [formInvalid]="formInvalid"
-                           [inEditMode]="inEditMode"
-                           [inFormState]="inFormState"
+                           [inCreateMode]="inCreateMode"
                            (edit)="enableEditMode()"
                            (remove)="removeProduct()"
                            (submitChanges)="submitChanges()"
                            (cancel)="cancelChanges()">
-  </app-product-item-footer>
-</mat-card>
+      </app-actions-section>
+    </div>
+
+    <app-header-section [inFormState]="inFormState"
+                        [inEditMode]="inEditMode"
+                        [product]="product">
+    </app-header-section>
+
+    <app-media-preview-section [inFormState]="inFormState"
+                               (mediaFile)="setFile($event)"
+                               [alreadyLoadedMediaUrl]="mediaUrl">
+    </app-media-preview-section>
+
+    <mat-card-content>
+      <app-view-section *ngIf="!inFormState"
+                        [product]="product">
+      </app-view-section>
+
+      <div *ngIf="inFormState"
+           class="flex-column">
+        <app-name-section [nameControl]="nameControl">
+        </app-name-section>
+
+        <app-price-section [priceControl]="priceControl">
+        </app-price-section>
+
+        <app-description-section [descriptionControl]="descriptionControl">
+        </app-description-section>
+
+        <app-category-type-section *ngIf="allCategories"
+                                   [categories]="allCategories"
+                                   [categoryControl]="categoryControl"
+                                   [defaultCategory]="defaultCategory"
+                                   [defaultType]="defaultType"
+                                   [typeControl]="typeControl">
+        </app-category-type-section>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

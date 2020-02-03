@@ -4,39 +4,37 @@ import { ProductItemComponent } from './product-item.component';
 import {
   MatButtonModule,
   MatCardModule,
+  MatDividerModule,
   MatIconModule,
   MatInputModule,
   MatSelectModule,
   MatSlideToggleModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProductItemFooterComponent } from './product-item-footer/product-item-footer.component';
-import { ProductItemHeaderComponent } from './product-item-header/product-item-header.component';
-import { ProductItemTypeSectionComponent } from './product-item-type-section/product-item-type-section.component';
-import { ProductItemCategorySectionComponent } from './product-item-category-section/product-item-category-section.component';
-import { ProductItemDescriptionSectionComponent } from './product-item-description-section/product-item-description-section.component';
-import { ProductItemNameSectionComponent } from './product-item-name-section/product-item-name-section.component';
-import { ProductItemPriceSectionComponent } from './product-item-price-section/product-item-price-section.component';
-import { ProductItemViewSectionComponent } from './product-item-view-section/product-item-view-section.component';
-import { ProductItemContentSectionComponent } from './product-item-content-section/product-item-content-section.component';
-import {
-  ProductItemContentManagementSectionComponent,
-} from './product-item-content-management-section/product-item-content-management-section.component';
+import { ActionsSectionComponent } from './actions-section/actions-section.component';
+import { HeaderSectionComponent } from './header-section/header-section.component';
+import { DescriptionSectionComponent } from './description-section/description-section.component';
+import { NameSectionComponent } from './name-section/name-section.component';
+import { PriceSectionComponent } from './price-section/price-section.component';
+import { ViewSectionComponent } from './product-item-view-section/view-section.component';
+import { MediaPreviewSectionComponent } from './media-preview-section/media-preview-section.component';
+import { MediaUploadSectionComponent } from './media-upload-section/media-upload-section.component';
+import { CategoryTypeSectionModule } from './category-type-section/category-type-section.module';
+import { BaseButtonModule } from '../base-button/base-button.module';
+import { BaseTextFieldModule } from '../base-text-field/base-text-field.module';
 
 
 @NgModule({
   declarations: [
     ProductItemComponent,
-    ProductItemFooterComponent,
-    ProductItemHeaderComponent,
-    ProductItemTypeSectionComponent,
-    ProductItemCategorySectionComponent,
-    ProductItemDescriptionSectionComponent,
-    ProductItemNameSectionComponent,
-    ProductItemPriceSectionComponent,
-    ProductItemViewSectionComponent,
-    ProductItemContentSectionComponent,
-    ProductItemContentManagementSectionComponent,
+    ActionsSectionComponent,
+    HeaderSectionComponent,
+    DescriptionSectionComponent,
+    NameSectionComponent,
+    PriceSectionComponent,
+    ViewSectionComponent,
+    MediaPreviewSectionComponent,
+    MediaUploadSectionComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +46,10 @@ import {
     FormsModule,
     MatInputModule,
     MatIconModule,
+    CategoryTypeSectionModule,
+    BaseButtonModule,
+    BaseTextFieldModule,
+    MatDividerModule,
   ],
   exports: [
     ProductItemComponent,

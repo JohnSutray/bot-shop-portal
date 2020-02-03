@@ -6,13 +6,17 @@ import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, Mat
 import { ProductRoutingModule } from './product-routing.module';
 import { PaginatorModule } from '../../components/paginator/paginator.module';
 import { ProductFilterComponent } from './product-filter/product-filter.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddProductButtonComponent } from './add-product-button/add-product-button.component';
+import { ActionPanelModule } from '../../components/action-panel/action-panel.module';
+import { BaseSelectModule } from '../../components/base-select/base-select.module';
 
 
 @NgModule({
   declarations: [
     ProductComponent,
     ProductFilterComponent,
-    ProductFilterComponent,
+    AddProductButtonComponent,
   ],
   imports: [
     ProductRoutingModule,
@@ -24,6 +28,10 @@ import { ProductFilterComponent } from './product-filter/product-filter.componen
     MatInputModule,
     MatSelectModule,
     PaginatorModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ActionPanelModule,
+    BaseSelectModule,
   ],
 })
 export class ProductModule {

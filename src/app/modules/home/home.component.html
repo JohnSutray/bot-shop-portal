@@ -1,28 +1,37 @@
 <div class="flex-column">
   <div class="flex-row flex-center">
-    <h1>Добро пожаловать в {{ botName }}</h1>
-  </div>
-
-  <div class="flex-row flex-center">
-    <img src="../../../assets/t-bot.svg"
-         class="home__poster"
-         alt="Import Shop Portal">
+    <h1>Панель управления {{ botName }}</h1>
   </div>
 
   <br>
 
-  <div class="flex-row flex-center">
+  <div class="flex-row flex-center flex-wrap">
     <div class="flex-grow-5"></div>
 
-    <button mat-stroked-button routerLink="/product">
-      Продукты
-    </button>
+    <app-action-panel routerLink="/product"
+                      actionIconSvg="product"
+                      [actionText]="LabelsConstants.PRODUCTS">
+    </app-action-panel>
 
     <div class="flex-grow-1"></div>
 
-    <button mat-stroked-button routerLink="/order">
-      Заказы
-    </button>
+    <app-action-panel routerLink="/order"
+                      actionIconSvg="order"
+                      [actionText]="LabelsConstants.ORDERS">
+    </app-action-panel>
+
+    <div class="flex-grow-1"></div>
+
+    <app-action-panel actionIconSvg="new"
+                      [actionText]="LabelsConstants.MAILING">
+    </app-action-panel>
+
+    <div class="flex-grow-1"></div>
+
+    <app-action-panel actionIcon="exit_to_app"
+                      [actionText]="LabelsConstants.EXIT"
+                      (click)="signOut()">
+    </app-action-panel>
 
     <div class="flex-grow-5"></div>
   </div>

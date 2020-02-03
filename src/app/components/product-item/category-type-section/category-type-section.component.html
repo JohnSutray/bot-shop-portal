@@ -1,0 +1,24 @@
+<div class="category-type-section flex-row">
+  <div>
+    <app-base-text-field #categoryTextField
+                         [control]="categoryControl"
+                         [label]="LabelsConstants.CATEGORY"
+                         [maxLength]="30"
+                         [hints]="categoryItems"
+                         suffixIcon="menu">
+    </app-base-text-field>
+  </div>
+
+  <div class="flex-grow-1"></div>
+
+  <div>
+    <app-base-text-field #typeTextField
+                         [control]="typeControl"
+                         [label]="LabelsConstants.TYPE"
+                         [maxLength]="30"
+                         [hints]="typeItems"
+                         suffixIcon="menu">
+    </app-base-text-field>
+  </div>
+</div>
+

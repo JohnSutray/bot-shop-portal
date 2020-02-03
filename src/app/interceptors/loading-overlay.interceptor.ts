@@ -9,7 +9,6 @@ export class LoadingOverlayInterceptor implements HttpInterceptor {
   constructor(
     private readonly loadingOverlayService: LoadingOverlayService,
   ) {
-    this.loadingOverlayService.setIsLoading(true);
   }
 
   private readonly requests: HttpRequest<any>[] = [];

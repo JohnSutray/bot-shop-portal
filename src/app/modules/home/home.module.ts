@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { MatButtonModule } from '@angular/material';
+import { ActionPanelModule } from '../../components/action-panel/action-panel.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { MatButtonModule } from '@angular/material';
     HomeRoutingModule,
     CommonModule,
     MatButtonModule,
+    ActionPanelModule,
   ],
 })
 export class HomeModule {

@@ -1,15 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-
 html, body {
   height: 100%;
-  background-color: #b2b2b2;
 }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  &:focus {
+    outline: none;
+  }
 }
 
 .flex-row {
@@ -34,6 +35,10 @@ body {
   flex-wrap: wrap;
 }
 
+.flex-no-wrap {
+  flex-wrap: nowrap;
+}
+
 .display-none {
   display: none;
 }
@@ -50,4 +55,12 @@ body {
 
 .align-flex-end {
   align-items: flex-end;
+}
+
+.scale-on-hover {
+  transition: all .2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
