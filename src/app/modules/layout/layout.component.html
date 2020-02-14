@@ -1,16 +1,26 @@
 <mat-sidenav-container class="layout">
-  <mat-sidenav-content>
+  <mat-sidenav-content style="overflow: hidden">
     <mat-toolbar>
-      <div class="layout__navigation flex-row">
-        <mat-icon svgIcon="t-bot"></mat-icon>
+      <div class="flex-row">
+        <app-base-button type="simple"
+                         routerLink="/home">
+          <div class="flex-row">
+            <img [src]="logoImage"
+                 alt="telegram avatar"
+                 class="layout__logo-image">
 
-        <div class="layout__logo"
-             routerLink="/home">
-          {{ logoText }}
-        </div>
+            <div class="flex-column flex-center">
+              <div class="layout__logo">
+                {{ logoText }}
+              </div>
+            </div>
+          </div>
+        </app-base-button>
       </div>
     </mat-toolbar>
 
-    <ng-content></ng-content>
+    <div class="layout__content">
+      <ng-content></ng-content>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

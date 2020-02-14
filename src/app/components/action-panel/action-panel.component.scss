@@ -8,6 +8,16 @@
   font-size: 25px;
   font-weight: bold;
 
+  &._disabled {
+    border-color: #898989;
+    color: #898989;
+
+    &:hover {
+      background-color: initial;
+      cursor: not-allowed;
+    }
+  }
+
   .mat-icon {
     transform: scale(5);
   }

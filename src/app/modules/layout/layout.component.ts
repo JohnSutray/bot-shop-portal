@@ -17,6 +17,10 @@ export class LayoutComponent {
   ) {
   }
 
+  get logoImage(): string {
+    return this.authorizationService.avatarImage;
+  }
+
   get logoText(): string {
     return this.authorizationService.isSigned
       ? this.authorizationService.botName

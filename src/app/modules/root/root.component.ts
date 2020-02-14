@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RouterOutlet } from '@angular/router';
+import { slideInAnimation } from '../../animations/slide-in.animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss'],
+  animations: [
+    slideInAnimation,
+  ],
 })
 export class RootComponent implements OnInit {
   constructor(
@@ -34,5 +39,11 @@ export class RootComponent implements OnInit {
       'new',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/new.svg'),
     );
+  }
+
+  getRouteAnimation(outlet: RouterOutlet): string {
+    return outlet
+      && outlet.activatedRouteData
+      && outlet.activatedRouteData.animation;
   }
 }

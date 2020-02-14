@@ -6,6 +6,7 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseTextFieldModule } from '../../components/base-text-field/base-text-field.module';
 import { BaseButtonModule } from '../../components/base-button/base-button.module';
+import { ActionPanelModule } from '../../components/action-panel/action-panel.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BaseButtonModule } from '../../components/base-button/base-button.modul
     ReactiveFormsModule,
     BaseTextFieldModule,
     BaseButtonModule,
+    ActionPanelModule,
   ],
 })
 export class AccountModule {

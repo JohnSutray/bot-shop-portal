@@ -1,4 +1,6 @@
-<div class="action-panel flex-row flex-center scale-on-hover">
+<div class="action-panel flex-row flex-center"
+     [class.scale-on-hover]="!disabled"
+     [class._disabled]="disabled">
   <div class="flex-column flex-center">
     <div class="flex-grow-3"></div>
     <div class="flex-row flex-center">

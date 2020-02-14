@@ -1,42 +1,28 @@
-<div class="flex-row flex-center">
-  <div class="sing-in flex-column flex-center">
-    <h1>{{LabelsConstants.INPUT_TOKEN}}</h1>
+<div class="account flex-column flex-align-center">
+  <app-base-text-field [control]="tokenFormControl"
+                       class="account__token-field"
+                       [maxLength]="ValidationConstants.TELEGRAM_TOKEN_LENGTH"
+                       [isPassword]="true"
+                       [label]="LabelsConstants.TOKEN">
+  </app-base-text-field>
 
-    <app-base-text-field [control]="tokenFormControl"
-                         class="sing-in__token-field"
-                         [maxLength]="ValidationConstants.TELEGRAM_TOKEN_LENGTH"
-                         [isPassword]="true"
-                         [label]="LabelsConstants.TOKEN">
-    </app-base-text-field>
+  <div class="flex-row">
+    <app-action-panel actionIcon="account_box"
+                      [actionText]="LabelsConstants.ENTER"
+                      [disabled]="tokenFormControl.invalid"
+                      (click)="signIn()">
+    </app-action-panel>
 
-    <div class="flex-row">
-      <app-base-button type="stroked"
-                       class="flex-grow-2"
-                       icon="menu"
-                       [disabled]="tokenFormControl.invalid"
-                       (buttonClick)="signIn()">
-        {{LabelsConstants.ENTER}}
-      </app-base-button>
+    <app-action-panel actionIcon="add_circle_outline"
+                      [actionText]="LabelsConstants.CREATE"
+                      [disabled]="tokenFormControl.invalid"
+                      (action)="create()">
+    </app-action-panel>
 
-      <div class="flex-grow-1"></div>
-
-      <app-base-button type="stroked"
-                       class="flex-grow-2"
-                       icon="menu"
-                       [disabled]="tokenFormControl.invalid"
-                       (buttonClick)="create()">
-        {{LabelsConstants.CREATE}}
-      </app-base-button>
-
-      <div class="flex-grow-1"></div>
-
-      <app-base-button type="stroked"
-                       class="flex-grow-2"
-                       icon="menu"
-                       [disabled]="tokenFormControl.invalid"
-                       (buttonClick)="remove()">
-        {{LabelsConstants.REMOVE}}
-      </app-base-button>
-    </div>
+    <app-action-panel actionIcon="delete"
+                      [actionText]="LabelsConstants.REMOVE"
+                      [disabled]="tokenFormControl.invalid"
+                      (action)="remove()">
+    </app-action-panel>
   </div>
 </div>

@@ -1,4 +1,6 @@
 <app-layout>
-  <router-outlet></router-outlet>
+  <div [@routeAnimations]="getRouteAnimation(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
 </app-layout>
 <app-loading-overlay></app-loading-overlay>

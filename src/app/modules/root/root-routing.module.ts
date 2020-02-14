@@ -8,6 +8,9 @@ const routes: Routes = [
     path: 'product',
     canActivate: [AuthenticationGuard],
     loadChildren: () => import('../product/product.module').then(m => m.ProductModule),
+    data: {
+      animation: 'product',
+    },
   },
   {
     path: 'order',
@@ -22,6 +25,9 @@ const routes: Routes = [
     path: 'home',
     canActivate: [AuthenticationGuard],
     loadChildren: () => import('../home/home.module').then(m => m.HomeModule),
+    data: {
+      animation: 'home',
+    },
   },
   {
     path: '**',

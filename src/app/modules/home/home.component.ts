@@ -17,10 +17,6 @@ export class HomeComponent {
   ) {
   }
 
-  get botName(): string {
-    return this.authorizationService.botName;
-  }
-
   signOut(): void {
     this.authorizationService.signOut();
     this.router.navigate(['/account']);

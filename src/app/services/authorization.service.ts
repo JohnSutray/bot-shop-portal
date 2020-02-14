@@ -9,6 +9,7 @@ import { Authorization } from '../models/authorization.model';
 export class AuthorizationService {
   private readonly AUTHORIZATION_KEY = 'Authorization';
   private readonly NAME_KEY = 'Name';
+  private readonly AVATAR_IMAGE = 'AvatarImage';
 
   constructor(
     private readonly authorizationClient: AuthorizationClient,
@@ -22,6 +23,10 @@ export class AuthorizationService {
 
   get apiToken(): string {
     return this.localStorageService.get<string>(this.AUTHORIZATION_KEY);
+  }
+
+  get avatarImage(): string {
+    return this.localStorageService.get<string>(this.AVATAR_IMAGE);
   }
 
   get isSigned(): boolean {
@@ -39,10 +44,12 @@ export class AuthorizationService {
   signOut(): void {
     this.localStorageService.remove(this.AUTHORIZATION_KEY);
     this.localStorageService.remove(this.NAME_KEY);
+    this.localStorageService.remove(this.AVATAR_IMAGE);
   }
 
   saveSignData = (auth: Authorization): void => {
     this.localStorageService.put(this.AUTHORIZATION_KEY, auth.token);
     this.localStorageService.put(this.NAME_KEY, auth.name);
+    this.localStorageService.put(this.AVATAR_IMAGE, auth.avatar);
   };
 }

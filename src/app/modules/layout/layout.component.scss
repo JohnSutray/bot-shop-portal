@@ -1,15 +1,20 @@
 .layout {
   height: 100vh;
 
-  &__logo {
-    cursor: pointer;
+  &__logo-image{
+    width: 40px;
+    height: 40px;
+    margin: 8px;
+    border-radius: 50%;
   }
 
-  &__navigation {
-    width: 100%;
+  &__logo {
+    font-size: 20px;
+  }
 
-    > * {
-      margin-left: 10px;
-    }
+  &__content {
+    height: calc(100vh - 64px + 20px);
+    overflow-y: auto;
+    width: calc(100vw + 20px);
   }
 }
