@@ -2,11 +2,20 @@
                 [class]="fieldClass">
   <mat-label>{{label}}</mat-label>
 
-  <input matInput
+  <input [class.display-none]="isTextarea"
+         matInput
          autocomplete="off"
          [type]="fieldType"
          [formControl]="control"
          [maxLength]="maxLength">
+
+  <textarea [class.display-none]="!isTextarea"
+            matInput
+            autocomplete="off"
+            [type]="fieldType"
+            [formControl]="control"
+            [maxLength]="maxLength">
+  </textarea>
 
   <mat-icon *ngIf="suffixIcon"
             (click)="handleSuffixClick($event)"
@@ -40,5 +49,9 @@
 
   <mat-error *ngIf="isNumber && minValueError">
     {{ LabelsConstants.MIN_VALUE_ERROR(minValueError.min) }}
+  </mat-error>
+
+  <mat-error *ngIf="isNumber && maxValueError">
+    {{ LabelsConstants.MAX_VALUE_ERROR(maxValueError.max) }}
   </mat-error>
 </mat-form-field>

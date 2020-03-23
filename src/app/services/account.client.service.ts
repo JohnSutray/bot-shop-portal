@@ -4,9 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { EndpointConstants } from '../constants/endpoint.constants';
 import { ActionResult } from '../models/action-result.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AccountClient {
   constructor(
     private readonly httpClient: HttpClient,
@@ -20,7 +18,7 @@ export class AccountClient {
     );
   }
 
-  remove(): Observable<ActionResult> {
+  removeCurrentAccount(): Observable<ActionResult> {
     return this.httpClient.delete<ActionResult>(
       EndpointConstants.ACCOUNT,
     );

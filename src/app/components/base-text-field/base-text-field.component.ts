@@ -11,16 +11,15 @@ export class BaseTextFieldComponent {
   readonly LabelsConstants = LabelsConstants;
 
   @Input() label: string;
-  @Input() isTextArea: string;
   @Input() rows: number;
   @Input() control: FormControl;
   @Input() maxLength: number;
   @Input() suffixIcon: string;
   @Input() hints: string[];
   @Input() fieldClass: string;
-  @Input() isNumber: boolean;
-  @Input() isPassword: boolean;
-  @Output() suffixIconClick = new Subject<void>();
+  @Input() isNumber = false;
+  @Input() isPassword = false;
+  @Input() isTextarea = false;
 
   handleSuffixClick(click: MouseEvent) {
     click.preventDefault();
@@ -55,5 +54,9 @@ export class BaseTextFieldComponent {
 
   get minValueError(): { min: number } {
     return this.control.errors && this.control.errors.min;
+  }
+
+  get maxValueError(): { max: number } {
+    return this.control.errors && this.control.errors.max;
   }
 }

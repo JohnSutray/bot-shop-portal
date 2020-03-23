@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthorizationService } from '../../services/authorization.service';
 import { LabelsConstants } from '../../constants/labels.constants';
-import { Router } from '@angular/router';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -13,12 +13,15 @@ export class HomeComponent {
 
   constructor(
     private readonly authorizationService: AuthorizationService,
-    private readonly router: Router,
+    private readonly accountService: AccountService,
   ) {
   }
 
   signOut(): void {
     this.authorizationService.signOut();
-    this.router.navigate(['/account']);
+  }
+
+  remove(): void {
+    this.accountService.removeCurrentAccount();
   }
 }

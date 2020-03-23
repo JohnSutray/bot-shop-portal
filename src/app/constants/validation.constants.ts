@@ -1,5 +1,6 @@
 export class ValidationConstants {
-  static readonly MAX_PRODUCT_NAME_LENGTH = 30;
+  static readonly TEXT_FIELD_MAX_LENGTH = 255;
   static readonly TELEGRAM_TOKEN_LENGTH = 46;
-  static readonly MAX_PRODUCT_DESCRIPTION_LENGTH = 5000;
+  static readonly TEXT_AREA_MAX_LENGTH = 5000;
+  static readonly MAX_NUMBER_VALUE = Number.MAX_SAFE_INTEGER;
 }

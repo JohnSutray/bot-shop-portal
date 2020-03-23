@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { PageResult } from '../../models/page-result.model';
+import { PaginationResult } from '../../models/page-result.model';
 import { Product } from '../../models/product.model';
 import { delay, tap } from 'rxjs/operators';
 import { PaginateOptions } from '../../models/paginate-options.model';
 import { ProductCategory } from '../../models/product-category.model';
 import { ProductFilter } from '../../models/product-filter.model';
+import { FormControl } from '@angular/forms';
+import { ProductFilterComponent } from './product-filter/product-filter.component';
 
 @Component({
   selector: 'app-product',
@@ -14,10 +16,12 @@ import { ProductFilter } from '../../models/product-filter.model';
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {
-  pageResult: PageResult<Product> = new PageResult([], 0, 10, 1);
-  categories: ProductCategory[];
+  pageResult: PaginationResult<Product> = new PaginationResult([], 0, 10, 1);
+  categories: ProductCategory[] = [];
   productFilter = new ProductFilter('', '');
   paginateOptions = new PaginateOptions(0, 50);
+
+  @ViewChild(ProductFilterComponent, { static: true }) private readonly productFilterComponent: ProductFilterComponent;
 
   constructor(
     private readonly productService: ProductService,
@@ -28,14 +32,16 @@ export class ProductComponent implements OnInit {
     return this.pageResult.items.length > 10;
   }
 
-  onProductUpdate = (): Subscription => this.updateCategories().pipe(
-    delay(1),
-    tap(this.updateProducts),
-  ).subscribe();
+  onProductCreate = (product: Product) => this.updateCategories()
+    .subscribe(() => this.setPatternByProduct(product));
+
+  onProductUpdate = (): Subscription => this.updateCategories()
+    .subscribe(this.updateProducts);
 
   updateCategories = (): Observable<ProductCategory[]> => this.productService.getAllCategories().pipe(
     tap(this.resetPagination),
     tap(allCategories => this.categories = allCategories),
+    delay(1),
   );
 
   updateProducts = (): Subscription => this.productService.findAll(this.productFilter, this.paginateOptions)
@@ -57,4 +63,11 @@ export class ProductComponent implements OnInit {
   }
 
   private resetPagination = (): PaginateOptions => this.paginateOptions = new PaginateOptions(0, 50);
+
+  private setPatternByProduct(product: Product): void {
+    const category = this.categories.find(c => c.name === product.name);
+    this.productFilterComponent.setCategory(category);
+    this.productFilterComponent.setType(product.type);
+    this.productFilterComponent.updateProductPattern();
+  };
 }

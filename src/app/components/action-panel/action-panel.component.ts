@@ -13,4 +13,10 @@ export class ActionPanelComponent {
   @Input() readonly disabled = false;
 
   @Output() readonly action = new Subject<void>();
+
+  onPanelClick() {
+    if (!this.disabled) {
+      this.action.next();
+    }
+  }
 }

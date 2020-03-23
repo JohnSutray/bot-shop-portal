@@ -10,19 +10,13 @@
     <app-action-panel actionIcon="account_box"
                       [actionText]="LabelsConstants.ENTER"
                       [disabled]="tokenFormControl.invalid"
-                      (click)="signIn()">
+                      (action)="signIn()">
     </app-action-panel>
 
     <app-action-panel actionIcon="add_circle_outline"
                       [actionText]="LabelsConstants.CREATE"
                       [disabled]="tokenFormControl.invalid"
                       (action)="create()">
-    </app-action-panel>
-
-    <app-action-panel actionIcon="delete"
-                      [actionText]="LabelsConstants.REMOVE"
-                      [disabled]="tokenFormControl.invalid"
-                      (action)="remove()">
     </app-action-panel>
   </div>
 </div>

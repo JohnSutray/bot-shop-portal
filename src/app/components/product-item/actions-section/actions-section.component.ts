@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { LabelsConstants } from '../../../constants/labels.constants';
 import { Subject } from 'rxjs';
 
@@ -6,8 +6,11 @@ import { Subject } from 'rxjs';
   selector: 'app-actions-section',
   templateUrl: './actions-section.component.html',
   styleUrls: ['./actions-section.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionsSectionComponent {
+  readonly LabelsConstants = LabelsConstants;
+
   @Input() inEditMode: boolean;
   @Input() inCreateMode: boolean;
   @Input() formInvalid: boolean;
@@ -16,8 +19,6 @@ export class ActionsSectionComponent {
   @Output() remove = new Subject<void>();
   @Output() submitChanges = new Subject<void>();
   @Output() cancel = new Subject<void>();
-
-  readonly LabelsConstants = LabelsConstants;
 
   get inFormState(): boolean {
     return this.inCreateMode || this.inEditMode;

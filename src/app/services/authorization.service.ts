@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { LocalStorageService } from './local-storage.service';
 import { AuthorizationClient } from './authorization.client.service';
 import { Authorization } from '../models/authorization.model';
+import { Router } from '@angular/router';
+import { stubPipeOnError } from '../utils/rxjs.utils';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationService {
@@ -14,6 +15,7 @@ export class AuthorizationService {
   constructor(
     private readonly authorizationClient: AuthorizationClient,
     private readonly localStorageService: LocalStorageService,
+    private readonly router: Router,
   ) {
   }
 
@@ -33,18 +35,19 @@ export class AuthorizationService {
     return !!this.apiToken;
   }
 
-  signIn(token: string): Observable<boolean> {
-    return this.authorizationClient.signIn(token).pipe(
-      catchError(() => EMPTY),
+  signIn(token: string): void {
+    this.authorizationClient.signIn(token).pipe(
+      catchError(stubPipeOnError),
       tap(this.saveSignData),
-      map(Boolean),
-    );
+      tap(this.navigateToHome),
+    ).subscribe();
   }
 
   signOut(): void {
     this.localStorageService.remove(this.AUTHORIZATION_KEY);
     this.localStorageService.remove(this.NAME_KEY);
     this.localStorageService.remove(this.AVATAR_IMAGE);
+    this.navigateToAccount();
   }
 
   saveSignData = (auth: Authorization): void => {
@@ -52,4 +55,9 @@ export class AuthorizationService {
     this.localStorageService.put(this.NAME_KEY, auth.name);
     this.localStorageService.put(this.AVATAR_IMAGE, auth.avatar);
   };
+
+  // TODO: create navigation service
+  navigateToHome = () => this.router.navigate(['/home']);
+
+  navigateToAccount = () => this.router.navigate(['/account']);
 }

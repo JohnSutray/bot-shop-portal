@@ -1,3 +1,7 @@
 export class ImageConstants {
-  static readonly PRODUCT_IMAGE_PLACEHOLDER = 'https://import-shop-bot.s3.eu-north-1.amazonaws.com/placeholder.png';
+  // @ts-ignore
+  static readonly PRODUCT_IMAGE_PLACEHOLDER = require('../../assets/product.png');
+
+  // @ts-ignore
+  static readonly BOT_AVATAR_PLACEHOLDER = require('../../assets/bot.png');
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization.service';
 import { LabelsConstants } from '../../constants/labels.constants';
+import { ImageConstants } from '../../constants/image.constants';
 
 @Component({
   selector: 'app-layout',
@@ -18,7 +19,7 @@ export class LayoutComponent {
   }
 
   get logoImage(): string {
-    return this.authorizationService.avatarImage;
+    return this.authorizationService.avatarImage || ImageConstants.BOT_AVATAR_PLACEHOLDER;
   }
 
   get logoText(): string {

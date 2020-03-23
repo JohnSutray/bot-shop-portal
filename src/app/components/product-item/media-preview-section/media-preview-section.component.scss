@@ -11,7 +11,6 @@
 
     &_edit {
       max-width: 460px;
-      max-height: 300px;
       margin-bottom: 20px;
     }
 
@@ -23,7 +22,7 @@
   &__upload-section {
     position: absolute;
     z-index: 1;
-    left: -35px;
+    left: 0px;
     top: 40px;
   }
 }

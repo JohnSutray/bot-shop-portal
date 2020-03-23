@@ -3,7 +3,7 @@
     <app-base-text-field #categoryTextField
                          [control]="categoryControl"
                          [label]="LabelsConstants.CATEGORY"
-                         [maxLength]="30"
+                         [maxLength]="ValidationConstants.TEXT_FIELD_MAX_LENGTH"
                          [hints]="categoryItems"
                          suffixIcon="menu">
     </app-base-text-field>
@@ -15,7 +15,7 @@
     <app-base-text-field #typeTextField
                          [control]="typeControl"
                          [label]="LabelsConstants.TYPE"
-                         [maxLength]="30"
+                         [maxLength]="ValidationConstants.TEXT_FIELD_MAX_LENGTH"
                          [hints]="typeItems"
                          suffixIcon="menu">
     </app-base-text-field>

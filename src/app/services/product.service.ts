@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
-import { PageResult } from '../models/page-result.model';
+import { PaginationResult } from '../models/page-result.model';
 import { ProductCategory } from '../models/product-category.model';
 import { EndpointConstants } from '../constants/endpoint.constants';
 import { PaginateOptions } from '../models/paginate-options.model';
 import { map } from 'rxjs/operators';
 import { ProductFilter } from '../models/product-filter.model';
+import { ProductManagementService } from './generated/api/product-management.service';
+import { mapCollection } from '../utils/rxjs.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +17,14 @@ import { ProductFilter } from '../models/product-filter.model';
 export class ProductService {
   constructor(
     private readonly httpClient: HttpClient,
+    private readonly productManagementService: ProductManagementService,
   ) {
   }
 
-  findAll(productFilter: ProductFilter, paginateOptions: PaginateOptions): Observable<PageResult<Product>> {
-    return this.httpClient.get<PageResult<Product>>(
+  findAll(productFilter: ProductFilter, paginateOptions: PaginateOptions): Observable<PaginationResult<Product>> {
+    return this.httpClient.get<PaginationResult<Product>>(
       `${EndpointConstants.PRODUCT}/${productFilter.category}/${productFilter.type}/${paginateOptions.page}/${paginateOptions.limit}`,
-    ).pipe(map(PageResult.fromDto));
+    ).pipe(map(PaginationResult.fromDto));
   }
 
   update(id: string, product: FormData): Observable<Product> {
@@ -29,7 +32,8 @@ export class ProductService {
   }
 
   getAllCategories(): Observable<ProductCategory[]> {
-    return this.httpClient.get<ProductCategory[]>(`${EndpointConstants.PRODUCT}/category`);
+    return this.productManagementService.productCategoryGet()
+      .pipe(mapCollection(ProductCategory.fromDto));
   }
 
   create(product: FormData): Observable<Product> {

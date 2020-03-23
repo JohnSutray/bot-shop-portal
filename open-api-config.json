@@ -1,0 +1,10 @@
+{
+  "supportES6": true,
+  "providedInRoot": "true",
+  "ngVersion": "7.0.0",
+  "ensureUniqueParams": false,
+  "fileNaming": "kebab-case",
+  "modelPropertyNaming": "camelCase",
+  "serviceFileSuffix": "-management.service",
+  "serviceSuffix": "ManagementService"
+}

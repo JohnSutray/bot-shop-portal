@@ -2,14 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
-import { slideInAnimation } from '../../animations/slide-in.animation';
+import { slideIn } from '../../animations/slide-in.animation';
+import { trigger } from '@angular/animations';
+import { SlideEnum } from '../../enums/slide.enum';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss'],
   animations: [
-    slideInAnimation,
+    trigger('routeAnimations', [
+      slideIn('home', 'product', SlideEnum.FromRight),
+      slideIn('product', 'home', SlideEnum.FromLeft),
+    ]),
   ],
 })
 export class RootComponent implements OnInit {

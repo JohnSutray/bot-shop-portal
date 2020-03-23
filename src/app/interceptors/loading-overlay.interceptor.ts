@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoadingOverlayService } from '../services/loading-overlay.service';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { debounceTime, finalize } from 'rxjs/operators';
 
 @Injectable()
 export class LoadingOverlayInterceptor implements HttpInterceptor {
@@ -14,6 +14,10 @@ export class LoadingOverlayInterceptor implements HttpInterceptor {
   private readonly requests: HttpRequest<any>[] = [];
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.method === 'GET') {
+      return next.handle(req);
+    }
+
     this.addRequest(req);
 
     return next.handle(req).pipe(

@@ -3,6 +3,7 @@ import { LabelsConstants } from '../../../constants/labels.constants';
 import { FormControl } from '@angular/forms';
 import { ProductCategory } from '../../../models/product-category.model';
 import { MatMenuTrigger } from '@angular/material';
+import { ValidationConstants } from '../../../constants/validation.constants';
 
 @Component({
   selector: 'app-category-type-section',
@@ -11,6 +12,7 @@ import { MatMenuTrigger } from '@angular/material';
 })
 export class CategoryTypeSectionComponent implements OnInit {
   readonly LabelsConstants = LabelsConstants;
+  readonly ValidationConstants = ValidationConstants;
 
   @ViewChild('categoryTextField', { static: false, read: MatMenuTrigger }) categoryMenuTrigger: MatMenuTrigger;
   @ViewChild('typeTextField', { static: false, read: MatMenuTrigger }) typeMenuTrigger: MatMenuTrigger;

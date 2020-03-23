@@ -23,9 +23,9 @@
     </app-media-preview-section>
 
     <mat-card-content>
-      <app-view-section *ngIf="!inFormState"
-                        [product]="product">
-      </app-view-section>
+      <app-product-view-section *ngIf="!inFormState"
+                                [product]="product">
+      </app-product-view-section>
 
       <div *ngIf="inFormState"
            class="flex-column">

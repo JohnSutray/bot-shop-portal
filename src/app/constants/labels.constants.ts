@@ -20,10 +20,10 @@ export class LabelsConstants {
   static readonly IMPORT_SHOP_PORTAL = 'Import shop portal';
   static readonly PRODUCT_IMAGE = 'Изображение продукта';
   static readonly SOMETHING_IS_WRONG = 'Что-то пошло не так...';
-  static readonly INPUT_TOKEN = 'Введите токен';
   static readonly ACCOUNT_REMOVED = 'Аккаунт удалён';
   static readonly ACCOUNT_CREATED = 'Аккаунт создан';
 
   static readonly MIN_LENGTH_ERROR = (minLength: number) => `Минимальная длина: ${minLength}`;
-  static readonly MIN_VALUE_ERROR = (min: number) => `Минимальная значение: ${min}`;
+  static readonly MIN_VALUE_ERROR = (min: number) => `Минимальное значение: ${min}`;
+  static readonly MAX_VALUE_ERROR = (min: number) => `Максимальное значение: ${min}`;
 }

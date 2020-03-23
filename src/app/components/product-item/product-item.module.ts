@@ -16,12 +16,13 @@ import { HeaderSectionComponent } from './header-section/header-section.componen
 import { DescriptionSectionComponent } from './description-section/description-section.component';
 import { NameSectionComponent } from './name-section/name-section.component';
 import { PriceSectionComponent } from './price-section/price-section.component';
-import { ViewSectionComponent } from './product-item-view-section/view-section.component';
+import { ProductViewSectionComponent } from './product-item-view-section/product-view-section.component';
 import { MediaPreviewSectionComponent } from './media-preview-section/media-preview-section.component';
 import { MediaUploadSectionComponent } from './media-upload-section/media-upload-section.component';
 import { CategoryTypeSectionModule } from './category-type-section/category-type-section.module';
 import { BaseButtonModule } from '../base-button/base-button.module';
 import { BaseTextFieldModule } from '../base-text-field/base-text-field.module';
+import { BaseTextareaModule } from '../base-textarea/base-textarea.module';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { BaseTextFieldModule } from '../base-text-field/base-text-field.module';
     DescriptionSectionComponent,
     NameSectionComponent,
     PriceSectionComponent,
-    ViewSectionComponent,
+    ProductViewSectionComponent,
     MediaPreviewSectionComponent,
     MediaUploadSectionComponent,
   ],
@@ -50,6 +51,7 @@ import { BaseTextFieldModule } from '../base-text-field/base-text-field.module';
     BaseButtonModule,
     BaseTextFieldModule,
     MatDividerModule,
+    BaseTextareaModule,
   ],
   exports: [
     ProductItemComponent,

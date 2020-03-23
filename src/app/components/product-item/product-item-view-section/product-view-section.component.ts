@@ -3,11 +3,11 @@ import { LabelsConstants } from '../../../constants/labels.constants';
 import { Product } from '../../../models/product.model';
 
 @Component({
-  selector: 'app-view-section',
-  templateUrl: './view-section.component.html',
-  styleUrls: ['./view-section.component.scss'],
+  selector: 'app-product-view-section',
+  templateUrl: './product-view-section.component.html',
+  styleUrls: ['./product-view-section.component.scss'],
 })
-export class ViewSectionComponent {
+export class ProductViewSectionComponent {
   readonly LabelsConstants = LabelsConstants;
 
   @Input() product: Product;

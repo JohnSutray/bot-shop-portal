@@ -1,19 +1,6 @@
-<mat-form-field appearance="outline"
-                class="product-item__description-field">
-  <mat-label>
-    {{LabelsConstants.DESCRIPTION}}
-  </mat-label>
-
-  <textarea matInput
-            [formControl]="descriptionControl"
-            [maxlength]="ValidationConstants.MAX_PRODUCT_DESCRIPTION_LENGTH.toString()"
-            rows="5">
-  </textarea>
-
-  <mat-hint align="end">
-    {{ descriptionControl.value.length }} / {{ValidationConstants.MAX_PRODUCT_DESCRIPTION_LENGTH}}
-  </mat-hint>
-  <mat-error *ngIf="descriptionControl.invalid">
-    {{LabelsConstants.YOU_MUST_ENTER_VALUE}}
-  </mat-error>
-</mat-form-field>
+<app-base-text-field [control]="descriptionControl"
+                     [maxLength]="ValidationConstants.TEXT_AREA_MAX_LENGTH"
+                     [label]="LabelsConstants.DESCRIPTION"
+                     rows="4"
+                     isTextarea>
+</app-base-text-field>

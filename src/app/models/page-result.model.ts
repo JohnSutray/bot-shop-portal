@@ -1,6 +1,6 @@
-export class PageResult<TItem> {
-  public static fromDto<TItem>(pageResult: PageResult<TItem>): PageResult<TItem> {
-    return new PageResult<TItem>(pageResult.items, pageResult.page, pageResult.limit, pageResult.totalPages);
+export class PaginationResult<TItem> {
+  public static fromDto<TItem>(pageResult: PaginationResult<TItem>): PaginationResult<TItem> {
+    return new PaginationResult<TItem>(pageResult.items, pageResult.page, pageResult.limit, pageResult.totalPages);
   }
 
   constructor(

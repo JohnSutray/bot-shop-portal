@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '../../models/order.model';
 import { OrderService } from '../../services/order.service';
-import { PageResult } from '../../models/page-result.model';
+import { PaginationResult } from '../../models/page-result.model';
 import { BehaviorSubject } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material';
@@ -15,7 +15,7 @@ import { Product } from '../../models/product.model';
 })
 export class OrderComponent implements OnInit {
   productPreview = new BehaviorSubject<Product>(null);
-  orderPage = new BehaviorSubject<PageResult<Order>>({
+  orderPage = new BehaviorSubject<PaginationResult<Order>>({
     limit: 10,
     page: 1,
     hasPrevPage: false,

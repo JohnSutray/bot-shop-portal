@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { PageResult } from '../../models/page-result.model';
+import { PaginationResult } from '../../models/page-result.model';
 import { Subject } from 'rxjs';
 import { PaginateOptions } from '../../models/paginate-options.model';
 import { FormControl } from '@angular/forms';
@@ -11,7 +11,7 @@ import { RangeUtils } from '../../utils/range.utils';
   styleUrls: ['./paginator.component.scss'],
 })
 export class PaginatorComponent implements OnChanges {
-  @Input() pageResult: PageResult<any>;
+  @Input() pageResult: PaginationResult<any>;
   @Output() paginateOptions = new Subject<PaginateOptions>();
 
   pageControl = new FormControl(0);

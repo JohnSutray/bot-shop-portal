@@ -8,6 +8,8 @@ import { ProductService } from '../../services/product.service';
 import { LabelsConstants } from '../../constants/labels.constants';
 import { EDisplayType } from '../../enums/display-type.enum';
 import { stubPipeOnError } from '../../utils/rxjs.utils';
+import { ValidationConstants } from '../../constants/validation.constants';
+import { log } from 'util';
 
 @Component({
   selector: 'app-product-item',
@@ -32,7 +34,11 @@ export class ProductItemComponent implements OnInit {
 
   readonly LabelsConstants = LabelsConstants;
   readonly nameControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
-  readonly priceControl = new FormControl('', [Validators.required, Validators.min(0.1)]);
+  readonly priceControl = new FormControl('', [
+    Validators.required,
+    Validators.min(0.1),
+    Validators.max(ValidationConstants.MAX_NUMBER_VALUE),
+  ]);
   readonly descriptionControl = new FormControl('', [Validators.required]);
   readonly categoryControl = new FormControl('', [Validators.required]);
   readonly typeControl = new FormControl('', [Validators.required]);
@@ -51,7 +57,7 @@ export class ProductItemComponent implements OnInit {
 
   get formInvalid(): boolean {
     if (this.inCreateMode && !this.mediaFile) {
-      return false;
+      return true;
     }
 
     return this.productFormGroup.invalid;
@@ -111,8 +117,8 @@ export class ProductItemComponent implements OnInit {
     this.productService.remove(this.product.id)
       .pipe(stubPipeOnError)
       .subscribe(
-      () => this.update.next(this.product),
-    );
+        () => this.update.next(this.product),
+      );
   }
 
   cancelChanges() {

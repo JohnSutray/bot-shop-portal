@@ -13,5 +13,8 @@ import { MatFormFieldModule } from '@angular/material';
     ReactiveFormsModule,
     MatFormFieldModule,
   ],
+  exports: [
+    BaseTextareaComponent,
+  ],
 })
 export class BaseTextareaModule { }

@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { AccountClient } from '../../services/account.client.service';
-import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
-import { tap } from 'rxjs/operators';
-import { InfoDialogService } from '../../services/info-dialog.service';
-import { InfoDialogData } from '../../models/info-dialog-data.model';
 import { AuthorizationService } from '../../services/authorization.service';
 import { LabelsConstants } from '../../constants/labels.constants';
 import { ValidationConstants } from '../../constants/validation.constants';
-import { stubPipeOnError } from '../../utils/rxjs.utils';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-account',
@@ -21,9 +16,7 @@ export class AccountComponent {
 
   constructor(
     private readonly authorizationService: AuthorizationService,
-    private readonly accountClient: AccountClient,
-    private readonly infoDialogService: InfoDialogService,
-    private readonly router: Router,
+    private readonly accountService: AccountService,
   ) {
   }
 
@@ -33,29 +26,10 @@ export class AccountComponent {
   ]);
 
   signIn() {
-    this.authorizationService.signIn(this.tokenFormControl.value).pipe(
-      stubPipeOnError,
-      tap(() => this.router.navigate(['/home'])),
-    ).subscribe();
+    this.authorizationService.signIn(this.tokenFormControl.value);
   }
 
   create() {
-    this.accountClient.create(this.tokenFormControl.value).pipe(
-      stubPipeOnError,
-    ).subscribe(this.openAccountCreatedDialog);
+    this.accountService.create(this.tokenFormControl.value);
   }
-
-  remove() {
-    this.accountClient.remove().pipe(
-      stubPipeOnError,
-    ).subscribe(this.openAccountRemovedDialog);
-  }
-
-  openAccountRemovedDialog = (): void => this.infoDialogService.open(
-    new InfoDialogData(LabelsConstants.ACCOUNT_REMOVED),
-  );
-
-  openAccountCreatedDialog = (): void => this.infoDialogService.open(
-    new InfoDialogData(LabelsConstants.ACCOUNT_CREATED),
-  );
 }

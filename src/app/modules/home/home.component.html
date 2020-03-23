@@ -4,7 +4,7 @@
   </div>
   <br>
 
-  <div class="flex-row flex-center flex-wrap">
+  <div class="flex-row flex-center">
     <div class="flex-grow-5"></div>
 
     <app-action-panel routerLink="/product"
@@ -25,13 +25,18 @@
                       [actionText]="LabelsConstants.MAILING">
     </app-action-panel>
 
-    <div class="flex-grow-1"></div>
+    <div class="flex-grow-5"></div>
+  </div>
 
+  <div class="flex-row flex-center">
     <app-action-panel actionIcon="exit_to_app"
                       [actionText]="LabelsConstants.EXIT"
                       (click)="signOut()">
     </app-action-panel>
 
-    <div class="flex-grow-5"></div>
+    <app-action-panel actionIcon="delete"
+                      [actionText]="LabelsConstants.REMOVE"
+                      (action)="remove()">
+    </app-action-panel>
   </div>
 </div>

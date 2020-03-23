@@ -4,6 +4,7 @@ import { LabelsConstants } from '../../../constants/labels.constants';
 import { ImageConstants } from '../../../constants/image.constants';
 import { lookup } from 'mime-types';
 import { BehaviorSubject } from 'rxjs';
+import { TemplateLifetimeUtils } from '../../../utils/template-lifetime.utils';
 
 @Component({
   selector: 'app-media-preview-section',
@@ -37,7 +38,7 @@ export class MediaPreviewSectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.callAfterNextViewInit(this.initHandleFileSubscription);
+    TemplateLifetimeUtils.callAfterNextViewInit(this.initHandleFileSubscription);
   }
 
   initHandleFileSubscription = (): void => {
@@ -47,11 +48,11 @@ export class MediaPreviewSectionComponent implements OnInit {
 
   private handleNewFile = (): void => {
     if (this.displayType === EDisplayType.IMAGE) {
-      this.callAfterNextViewInit(this.reloadImage);
+      TemplateLifetimeUtils.callAfterNextViewInit(this.reloadImage);
     }
 
     if (this.displayType === EDisplayType.VIDEO) {
-      this.callAfterNextViewInit(this.reloadVideo);
+      TemplateLifetimeUtils.callAfterNextViewInit(this.reloadVideo);
     }
   };
 
@@ -65,10 +66,6 @@ export class MediaPreviewSectionComponent implements OnInit {
   // noinspection JSMethodCanBeStatic
   private getExtensionOf(name: string) {
     return name.slice(name.lastIndexOf('.'));
-  }
-
-  private callAfterNextViewInit(callback: () => any): void {
-    setTimeout(() => callback());
   }
 
   private get contentUrl(): string {

@@ -1,9 +1,9 @@
 <div class="product-filter flex-row">
   <app-base-select [control]="categoryControl"
                    label="Категория"
-                   [items]="categories || []"
+                   [items]="categories"
                    [itemMapper]="categoryMapper"
-                   (selectionChange)="updateProductPattern()">
+                   (selectionChange)="selectCategory()">
   </app-base-select>
 
   <app-base-select [control]="typeControl"
