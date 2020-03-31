@@ -34,7 +34,7 @@
     "@types/lodash.range": "3.2.6",
     "@types/mime-types": "2.1.0",
     "@angular-devkit/build-angular": "~0.803.23",
-    "@angular/cli": "~8.3.23",
+    "@angular/cli": "^9.1.0",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
     "@types/node": "~8.9.4",
