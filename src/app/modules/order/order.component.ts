@@ -4,7 +4,7 @@ import { OrderService } from '../../services/order.service';
 import { PaginationResult } from '../../models/page-result.model';
 import { BehaviorSubject } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Line } from '../../models/line.model';
 import { Product } from '../../models/product.model';
 

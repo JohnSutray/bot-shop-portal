@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { LabelsConstants } from '../../../constants/labels.constants';
 import { FormControl } from '@angular/forms';
 import { ProductCategory } from '../../../models/product-category.model';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { ValidationConstants } from '../../../constants/validation.constants';
 
 @Component({

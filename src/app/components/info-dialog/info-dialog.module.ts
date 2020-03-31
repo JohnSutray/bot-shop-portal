@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { InfoDialogComponent } from './info-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandleInterceptor } from '../../interceptors/error-handle.interceptor';
-import { MatButtonModule, MatDialogModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 

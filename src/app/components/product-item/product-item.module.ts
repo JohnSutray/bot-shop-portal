@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductItemComponent } from './product-item.component';
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatDividerModule,
-  MatIconModule,
-  MatInputModule,
-  MatSelectModule,
-  MatSlideToggleModule,
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActionsSectionComponent } from './actions-section/actions-section.component';
 import { HeaderSectionComponent } from './header-section/header-section.component';
