@@ -6,6 +6,8 @@ const slash = require('slash');
 
 const generatedDirectory = `./src/app/services/generated`;
 
+// process.env.TS_POST_PROCESS_FILE = './node_modules/prettier';
+
 const jsonUrl = 'http://localhost:5000/swagger/v1/swagger.json';
 const generatorUrl = 'https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar';
 
@@ -58,10 +60,11 @@ const generate = async () => {
     fs.mkdirSync(generatedDirectory);
   }
 
-  if (!fs.existsSync(pathToJson)) {
+  if (fs.existsSync(pathToJson)) {
     removeFile(pathToJson);
-    await downloadAsync(jsonUrl, pathToJson);
   }
+
+  await downloadAsync(jsonUrl, pathToJson);
 
   if (!fs.existsSync(pathToGenerator)) {
     await downloadAsync(generatorUrl, pathToGenerator);

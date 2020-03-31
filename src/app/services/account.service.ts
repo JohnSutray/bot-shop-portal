@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AccountClient } from './account.client.service';
 import { InfoDialogService } from './info-dialog.service';
 import { stubPipeOnError } from '../utils/rxjs.utils';
 import { InfoDialogData } from '../models/info-dialog-data.model';
@@ -9,14 +8,13 @@ import { AccountManagementService } from './generated/api/account-management.ser
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   constructor(
-    private readonly accountClient: AccountClient,
     private readonly infoDialogService: InfoDialogService,
     private readonly accountManagementService: AccountManagementService,
   ) {
   }
 
   removeCurrentAccount() {
-    this.accountManagementService.accountDelete()
+    this.accountManagementService.deleteAccount()
       .pipe(stubPipeOnError)
       .subscribe(this.openAccountRemovedDialog);
   }
@@ -26,7 +24,7 @@ export class AccountService {
   );
 
   create(token: string) {
-    this.accountClient.create(token)
+    this.accountManagementService.createAccount({ telegramToken: token })
       .pipe(stubPipeOnError)
       .subscribe(this.openAccountCreatedDialog);
   }

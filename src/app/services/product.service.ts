@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 import { PaginationResult } from '../models/page-result.model';
 import { ProductCategory } from '../models/product-category.model';
-import { EndpointConstants } from '../constants/endpoint.constants';
 import { PaginateOptions } from '../models/paginate-options.model';
 import { map } from 'rxjs/operators';
 import { ProductFilter } from '../models/product-filter.model';
@@ -21,26 +20,30 @@ export class ProductService {
   ) {
   }
 
-  findAll(productFilter: ProductFilter, paginateOptions: PaginateOptions): Observable<PaginationResult<Product>> {
-    return this.httpClient.get<PaginationResult<Product>>(
-      `${EndpointConstants.PRODUCT}/${productFilter.category}/${productFilter.type}/${paginateOptions.page}/${paginateOptions.limit}`,
-    ).pipe(map(PaginationResult.fromDto));
+  paginate(productFilter: ProductFilter, paginateOptions: PaginateOptions): Observable<PaginationResult<Product>> {
+    return this.productManagementService.getProducts(
+      productFilter.category,
+      productFilter.type,
+      paginateOptions.page,
+      paginateOptions.limit,
+    ).pipe(map(page => PaginationResult.fromDto(page, Product.fromDto)));
   }
 
-  update(id: string, product: FormData): Observable<Product> {
-    return this.httpClient.post<Product>(`${EndpointConstants.PRODUCT}/${id}`, product);
+  update(
+    id: string, name?: string, description?: string, price?: number, category?: string, type?: string, media?: File,
+  ): Observable<Product> {
+    return this.productManagementService.updateProduct(id, price, name, description, category, type, media).pipe(map(Product.fromDto));
   }
 
-  getAllCategories(): Observable<ProductCategory[]> {
-    return this.productManagementService.productCategoryGet()
-      .pipe(mapCollection(ProductCategory.fromDto));
+  getCategories(): Observable<ProductCategory[]> {
+    return this.productManagementService.getCategories().pipe(mapCollection(ProductCategory.fromDto));
   }
 
-  create(product: FormData): Observable<Product> {
-    return this.httpClient.put<Product>(EndpointConstants.PRODUCT, product);
+  create(name: string, description: string, price: number, category: string, type: string, media: File): Observable<Product> {
+    return this.productManagementService.createProduct(price, name, description, category, type, media).pipe(map(Product.fromDto));
   }
 
   remove(id: string): Observable<Product> {
-    return this.httpClient.delete<Product>(`${EndpointConstants.PRODUCT}/${id}`);
+    return this.productManagementService.deleteProduct(id);
   }
 }

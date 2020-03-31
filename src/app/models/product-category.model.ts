@@ -1,7 +1,7 @@
-import { Category } from '../services/generated/model/category';
+import { CategoryDto } from '../services/generated/model/category-dto';
 
 export class ProductCategory {
-  static fromDto(dto: Category): ProductCategory {
+  static fromDto(dto: CategoryDto): ProductCategory {
     return new ProductCategory(dto.name, dto.types);
   }
 

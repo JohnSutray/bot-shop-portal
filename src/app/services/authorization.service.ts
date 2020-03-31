@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
 import { LocalStorageService } from './local-storage.service';
-import { AuthorizationClient } from './authorization.client.service';
 import { Authorization } from '../models/authorization.model';
 import { Router } from '@angular/router';
 import { stubPipeOnError } from '../utils/rxjs.utils';
+import { AuthenticateManagementService } from './generated/api/authenticate-management.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationService {
@@ -13,7 +13,7 @@ export class AuthorizationService {
   private readonly AVATAR_IMAGE = 'AvatarImage';
 
   constructor(
-    private readonly authorizationClient: AuthorizationClient,
+    private readonly authenticateManagementService: AuthenticateManagementService,
     private readonly localStorageService: LocalStorageService,
     private readonly router: Router,
   ) {
@@ -36,7 +36,7 @@ export class AuthorizationService {
   }
 
   signIn(token: string): void {
-    this.authorizationClient.signIn(token).pipe(
+    this.authenticateManagementService.getToken({ telegramToken: token }).pipe(
       catchError(stubPipeOnError),
       tap(this.saveSignData),
       tap(this.navigateToHome),

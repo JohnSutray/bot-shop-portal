@@ -33,7 +33,10 @@ export class ProductItemComponent implements OnInit {
   mediaFile: File;
 
   readonly LabelsConstants = LabelsConstants;
-  readonly nameControl = new FormControl('', [Validators.required, Validators.minLength(5)]);
+  readonly nameControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(5),
+  ]);
   readonly priceControl = new FormControl('', [
     Validators.required,
     Validators.min(0.1),
@@ -75,50 +78,50 @@ export class ProductItemComponent implements OnInit {
     return this.inEditMode && this.product.type;
   }
 
-  get productForm(): FormData {
-    const form = new FormData();
+  private get formName(): string {
+    return this.nameControl.value;
+  }
 
-    form.append('name', this.nameControl.value);
-    form.append('price', this.priceControl.value);
-    form.append('description', this.descriptionControl.value);
-    form.append('type', this.typeControl.value);
-    form.append('category', this.categoryControl.value);
+  private get formDescription(): string {
+    return this.descriptionControl.value;
+  }
 
-    if (this.mediaFile) {
-      form.append('media', this.mediaFile);
-    }
+  private get formPrice(): number {
+    return this.priceControl.value;
+  }
 
-    return form;
+  private get formCategory(): string {
+    return this.categoryControl.value;
+  }
+
+  private get formType(): string {
+    return this.typeControl.value;
   }
 
   ngOnInit(): void {
     this.resetToDefaults();
 
     if (this.inCreateMode) {
-      this.fetchOptions();
+      this.fetchCategories();
     }
   }
 
   enableEditMode(): void {
     this.inEditMode = true;
-    this.fetchOptions();
+    this.fetchCategories();
     this.resetEditModeDefaults();
   }
 
-  submitChanges = (): Subscription => this.commitChanges()
-    .pipe(stubPipeOnError)
-    .subscribe(this.afterCommit);
+  submitChanges = (): Subscription => this.save().pipe(stubPipeOnError).subscribe(this.afterCommit);
 
-  setFile(file: File) {
+  setFile(file: File): void {
     this.mediaFile = file;
   }
 
   removeProduct() {
     this.productService.remove(this.product.id)
       .pipe(stubPipeOnError)
-      .subscribe(
-        () => this.update.next(this.product),
-      );
+      .subscribe(() => this.update.next(this.product));
   }
 
   cancelChanges() {
@@ -127,18 +130,16 @@ export class ProductItemComponent implements OnInit {
     this.cancel.next();
   }
 
-  private fetchOptions() {
-    this.productService.getAllCategories().pipe(
-      tap(categories => this.allCategories = categories),
-    ).subscribe();
+  private fetchCategories(): void {
+    this.productService.getCategories().subscribe(categories => this.allCategories = categories);
   }
 
   private resetCreateModeDefaults(): void {
     this.nameControl.setValue('Имя продукта');
     this.priceControl.setValue(1);
     this.descriptionControl.setValue('Описание');
-    this.typeControl.setValue('Категория');
-    this.categoryControl.setValue('Тип продукта');
+    this.typeControl.setValue('Тип');
+    this.categoryControl.setValue('Категория');
   }
 
   private resetEditModeDefaults(): void {
@@ -149,9 +150,24 @@ export class ProductItemComponent implements OnInit {
     this.typeControl.setValue(this.product.type);
   }
 
-  private commitChanges = (): Observable<Product> => this.inEditMode
-    ? this.productService.update(this.product.id, this.productForm)
-    : this.productService.create(this.productForm);
+  private save = (): Observable<Product> => this.inEditMode
+    ? this.productService.update(
+      this.product.id,
+      this.formName,
+      this.formDescription,
+      this.formPrice,
+      this.formCategory,
+      this.formType,
+      this.mediaFile,
+    )
+    : this.productService.create(
+      this.formName,
+      this.formDescription,
+      this.formPrice,
+      this.formCategory,
+      this.formType,
+      this.mediaFile,
+    );
 
   private afterCommit = (product: Product) => {
     this.resetToDefaults();

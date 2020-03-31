@@ -38,13 +38,13 @@ export class ProductComponent implements OnInit {
   onProductUpdate = (): Subscription => this.updateCategories()
     .subscribe(this.updateProducts);
 
-  updateCategories = (): Observable<ProductCategory[]> => this.productService.getAllCategories().pipe(
+  updateCategories = (): Observable<ProductCategory[]> => this.productService.getCategories().pipe(
     tap(this.resetPagination),
     tap(allCategories => this.categories = allCategories),
     delay(1),
   );
 
-  updateProducts = (): Subscription => this.productService.findAll(this.productFilter, this.paginateOptions)
+  updateProducts = (): Subscription => this.productService.paginate(this.productFilter, this.paginateOptions)
     .subscribe(pageResult => this.pageResult = pageResult);
 
   ngOnInit(): void {
@@ -69,5 +69,5 @@ export class ProductComponent implements OnInit {
     this.productFilterComponent.setCategory(category);
     this.productFilterComponent.setType(product.type);
     this.productFilterComponent.updateProductPattern();
-  };
+  }
 }

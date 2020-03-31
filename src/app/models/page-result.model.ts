@@ -1,6 +1,15 @@
+import { PaginationResultDto } from './pagination-result-dto.model';
+
 export class PaginationResult<TItem> {
-  public static fromDto<TItem>(pageResult: PaginationResult<TItem>): PaginationResult<TItem> {
-    return new PaginationResult<TItem>(pageResult.items, pageResult.page, pageResult.limit, pageResult.totalPages);
+  public static fromDto<TDto, TItem>(
+    pageResult: PaginationResultDto<TDto>,
+    itemMapper: (dto: TDto) => TItem,
+  ): PaginationResult<TItem> {
+    return new PaginationResult<TItem>(
+      pageResult.items.map(itemMapper),
+      pageResult.page, pageResult.limit,
+      pageResult.totalPages,
+    );
   }
 
   constructor(
