@@ -65,6 +65,10 @@ export class ProductFilterComponent implements OnChanges {
     }
   }
 
+  get category(): ProductCategory {
+    return this.categoryControl.value;
+  }
+
   private get currentCategoryModel(): ProductCategory {
     return this.categories.find(c => c.name === this.category.name);
   }
@@ -85,10 +89,6 @@ export class ProductFilterComponent implements OnChanges {
 
   private get currentTypeExist(): boolean {
     return this.category.types.includes(this.type);
-  }
-
-  private get category(): ProductCategory {
-    return this.categoryControl.value;
   }
 
   private get type(): string {
