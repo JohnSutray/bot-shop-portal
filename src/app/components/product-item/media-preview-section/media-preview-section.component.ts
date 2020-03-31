@@ -15,9 +15,9 @@ export class MediaPreviewSectionComponent implements OnInit {
   readonly EDisplayType = EDisplayType;
   readonly LabelsConstants = LabelsConstants;
 
-  @ViewChild('videoElement', { static: false }) videoElement: ElementRef<HTMLVideoElement>;
-  @ViewChild('imageElement', { static: false }) imageElement: ElementRef<HTMLVideoElement>;
-  @ViewChild('videoElementSource', { static: false }) videoElementSource: ElementRef<HTMLSourceElement>;
+  @ViewChild('videoElement') videoElement: ElementRef<HTMLVideoElement>;
+  @ViewChild('imageElement') imageElement: ElementRef<HTMLVideoElement>;
+  @ViewChild('videoElementSource') videoElementSource: ElementRef<HTMLSourceElement>;
 
   @Input() readonly alreadyLoadedMediaUrl: string = null;
   @Input() readonly inFormState = false;

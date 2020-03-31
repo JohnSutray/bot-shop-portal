@@ -14,8 +14,8 @@ export class CategoryTypeSectionComponent implements OnInit {
   readonly LabelsConstants = LabelsConstants;
   readonly ValidationConstants = ValidationConstants;
 
-  @ViewChild('categoryTextField', { static: false, read: MatMenuTrigger }) categoryMenuTrigger: MatMenuTrigger;
-  @ViewChild('typeTextField', { static: false, read: MatMenuTrigger }) typeMenuTrigger: MatMenuTrigger;
+  @ViewChild('categoryTextField', { read: MatMenuTrigger }) categoryMenuTrigger: MatMenuTrigger;
+  @ViewChild('typeTextField', { read: MatMenuTrigger }) typeMenuTrigger: MatMenuTrigger;
 
   @Input() readonly categoryControl: FormControl;
   @Input() readonly defaultCategory: string;
