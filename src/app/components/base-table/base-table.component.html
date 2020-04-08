@@ -1,0 +1,36 @@
+<mat-table [dataSource]="dataSource">
+  <ng-container *ngFor="let column of columns"
+                [matColumnDef]="column.id">
+    <mat-header-cell *matHeaderCellDef>
+      {{ column.title }}
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let row; let i = index">
+      <ng-template #textColumn>
+        {{ column.mapFunction(row, i) }}
+      </ng-template>
+
+      <app-base-button *ngIf="column.isButton else textColumn"
+                       (buttonClick)="handleButtonCellClick($event, column.buttonAction, row, i)"
+                       [type]="column.buttonType"
+                       [icon]="column.mapFunction(row, i)"
+                       [color]="column.buttonColor">
+        {{ column.mapFunction(row, i) }}
+      </app-base-button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="headerRowDefinition"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: headerRowDefinition"
+           [matTooltipDisabled]="!tooltipMapper"
+           [matTooltip]="tooltipMapper(row)"
+           matTooltipClass="table-tooltip"
+           (click)="rowClick.next(row)">
+  </mat-row>
+</mat-table>
+<mat-paginator [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               [length]="length"
+               (page)="updatePage($event)"
+               [showFirstLastButtons]="true">
+</mat-paginator>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthorizationService } from '../../services/authorization.service';
 import { LabelsConstants } from '../../constants/labels.constants';
@@ -9,6 +9,7 @@ import { AccountService } from '../../services/account.service';
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AccountComponent {
   readonly ValidationConstants = ValidationConstants;

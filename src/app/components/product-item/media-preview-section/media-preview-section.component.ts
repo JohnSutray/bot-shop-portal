@@ -20,7 +20,7 @@ export class MediaPreviewSectionComponent implements OnInit {
   @ViewChild('videoElementSource') videoElementSource: ElementRef<HTMLSourceElement>;
 
   @Input() readonly alreadyLoadedMediaUrl: string = null;
-  @Input() readonly inFormState = false;
+  @Input() readonly inFormState: boolean = false;
   @Output() readonly mediaFile = new BehaviorSubject<File>(null);
 
   get displayType(): EDisplayType {

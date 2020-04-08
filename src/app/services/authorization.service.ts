@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { LocalStorageService } from './local-storage.service';
-import { Authorization } from '../models/authorization.model';
+import { AuthResult } from '../models/authorization.model';
 import { Router } from '@angular/router';
 import { stubPipeOnError } from '../utils/rxjs.utils';
 import { AuthenticateManagementService } from './generated/api/authenticate-management.service';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationService {
@@ -36,7 +37,7 @@ export class AuthorizationService {
   }
 
   signIn(token: string): void {
-    this.authenticateManagementService.getToken({ telegramToken: token }).pipe(
+    this.getToken(token).pipe(
       catchError(stubPipeOnError),
       tap(this.saveSignData),
       tap(this.navigateToHome),
@@ -50,14 +51,18 @@ export class AuthorizationService {
     this.navigateToAccount();
   }
 
-  saveSignData = (auth: Authorization): void => {
+  private saveSignData = (auth: AuthResult): void => {
     this.localStorageService.put(this.AUTHORIZATION_KEY, auth.token);
     this.localStorageService.put(this.NAME_KEY, auth.name);
     this.localStorageService.put(this.AVATAR_IMAGE, auth.avatar);
   };
 
   // TODO: create navigation service
-  navigateToHome = () => this.router.navigate(['/home']);
+  private navigateToHome = () => this.router.navigate(['/home']);
 
-  navigateToAccount = () => this.router.navigate(['/account']);
+  private navigateToAccount = () => this.router.navigate(['/account']);
+
+  private getToken(telegramToken: string): Observable<AuthResult> {
+    return this.authenticateManagementService.getToken({ telegramToken }).pipe(map(AuthResult.fromDto));
+  }
 }

@@ -10,7 +10,7 @@ export class ActionPanelComponent {
   @Input() readonly actionIcon: string;
   @Input() readonly actionIconSvg: string;
   @Input() readonly actionText: string;
-  @Input() readonly disabled = false;
+  @Input() readonly disabled: boolean;
 
   @Output() readonly action = new Subject<void>();
 

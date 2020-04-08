@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { PaginationResult } from '../../models/page-result.model';
 import { Subject } from 'rxjs';
-import { PaginateOptions } from '../../models/paginate-options.model';
+import { PaginationFilter } from '../../models/paginate-filter.model';
 import { FormControl } from '@angular/forms';
 import { RangeUtils } from '../../utils/range.utils';
 
@@ -12,7 +12,7 @@ import { RangeUtils } from '../../utils/range.utils';
 })
 export class PaginatorComponent implements OnChanges {
   @Input() pageResult: PaginationResult<any>;
-  @Output() paginateOptions = new Subject<PaginateOptions>();
+  @Output() paginationFilter = new Subject<PaginationFilter>();
 
   pageControl = new FormControl(0);
   limitControl = new FormControl(50);
@@ -36,7 +36,7 @@ export class PaginatorComponent implements OnChanges {
 
   pageMapper = (page: number): number => page + 1;
 
-  updatePageOptions = (): void => this.paginateOptions.next(this._paginateOptions);
+  updatePageOptions = (): void => this.paginationFilter.next(this._paginationFilter);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.pageResult) {
@@ -47,7 +47,7 @@ export class PaginatorComponent implements OnChanges {
     this.limitControl.setValue(this.pageResult.limit);
   }
 
-  private get _paginateOptions(): PaginateOptions {
-    return new PaginateOptions(this.pageControl.value, this.limitControl.value);
+  private get _paginationFilter(): PaginationFilter {
+    return new PaginationFilter(this.pageControl.value, this.limitControl.value);
   }
 }

@@ -4,7 +4,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { PaginationResult } from '../../models/page-result.model';
 import { Product } from '../../models/product.model';
 import { delay, tap } from 'rxjs/operators';
-import { PaginateOptions } from '../../models/paginate-options.model';
+import { PaginationFilter } from '../../models/paginate-filter.model';
 import { ProductCategory } from '../../models/product-category.model';
 import { ProductFilter } from '../../models/product-filter.model';
 import { FormControl } from '@angular/forms';
@@ -19,7 +19,7 @@ export class ProductComponent implements OnInit {
   pageResult: PaginationResult<Product> = new PaginationResult([], 0, 10, 1);
   categories: ProductCategory[] = [];
   productFilter = new ProductFilter('', '');
-  paginateOptions = new PaginateOptions(0, 50);
+  paginateFilter = new PaginationFilter(0, 50);
 
   @ViewChild(ProductFilterComponent, { static: true }) private readonly productFilterComponent: ProductFilterComponent;
 
@@ -44,7 +44,7 @@ export class ProductComponent implements OnInit {
     delay(1),
   );
 
-  updateProducts = (): Subscription => this.productService.paginate(this.productFilter, this.paginateOptions)
+  updateProducts = (): Subscription => this.productService.paginate(this.productFilter, this.paginateFilter)
     .subscribe(pageResult => this.pageResult = pageResult);
 
   ngOnInit(): void {
@@ -57,12 +57,12 @@ export class ProductComponent implements OnInit {
     this.updateProducts();
   }
 
-  updatePagination(options: PaginateOptions) {
-    this.paginateOptions = options;
+  updatePagination(filter: PaginationFilter) {
+    this.paginateFilter = filter;
     this.updateProducts();
   }
 
-  private resetPagination = (): PaginateOptions => this.paginateOptions = new PaginateOptions(0, 50);
+  private resetPagination = (): PaginationFilter => this.paginateFilter = new PaginationFilter(0, 50);
 
   private setPatternByProduct(product: Product): void {
     const category = this.categories.find(c => c.name === product.name);

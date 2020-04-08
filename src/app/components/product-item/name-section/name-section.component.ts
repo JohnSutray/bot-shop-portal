@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { LabelsConstants } from '../../../constants/labels.constants';
 import { FormControl } from '@angular/forms';
 import { ValidationConstants } from '../../../constants/validation.constants';
@@ -7,6 +7,7 @@ import { ValidationConstants } from '../../../constants/validation.constants';
   selector: 'app-name-section',
   templateUrl: './name-section.component.html',
   styleUrls: ['./name-section.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class NameSectionComponent {
   readonly ValidationConstants = ValidationConstants;

@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint --fix  --exclude **/generated/**/*.ts",
     "e2e": "ng e2e",
-    "generate-services": "node swagger.generator.js"
+    "generate-services": "node swagger.generator.js",
+    "postinstall": "npm run generate-services"
   },
   "private": true,
   "dependencies": {

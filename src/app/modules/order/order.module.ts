@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { ProductItemModule } from '../../components/product-item/product-item.module';
 import { OrderRoutingModule } from './order-routing.module';
+import { BaseTableModule } from '../../components/base-table/base-table.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { OrderRoutingModule } from './order-routing.module';
     MatButtonModule,
     MatIconModule,
     ProductItemModule,
+    BaseTableModule,
   ],
 })
 export class OrderModule {

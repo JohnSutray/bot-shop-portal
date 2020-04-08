@@ -1,6 +1,5 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { LabelsConstants } from '../../constants/labels.constants';
 
 @Component({

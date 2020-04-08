@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 import { PaginationResult } from '../models/page-result.model';
 import { ProductCategory } from '../models/product-category.model';
-import { PaginateOptions } from '../models/paginate-options.model';
+import { PaginationFilter } from '../models/paginate-filter.model';
 import { map } from 'rxjs/operators';
 import { ProductFilter } from '../models/product-filter.model';
 import { ProductManagementService } from './generated/api/product-management.service';
@@ -20,12 +20,12 @@ export class ProductService {
   ) {
   }
 
-  paginate(productFilter: ProductFilter, paginateOptions: PaginateOptions): Observable<PaginationResult<Product>> {
+  paginate(productFilter: ProductFilter, paginationFilter: PaginationFilter): Observable<PaginationResult<Product>> {
     return this.productManagementService.getProducts(
       productFilter.category,
       productFilter.type,
-      paginateOptions.page,
-      paginateOptions.limit,
+      paginationFilter.page,
+      paginationFilter.limit,
     ).pipe(map(page => PaginationResult.fromDto(page, Product.fromDto)));
   }
 

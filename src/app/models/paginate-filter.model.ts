@@ -1,9 +1,9 @@
 import { freezeAndSeal } from '../utils/object.utils';
 
-export class ProductFilter {
+export class PaginationFilter {
   constructor(
-    readonly category: string,
-    readonly type: string,
+    readonly page: number,
+    readonly limit: number,
   ) {
     freezeAndSeal(this);
   }

@@ -8,6 +8,7 @@ import { InfoDialogModule } from '../../components/info-dialog/info-dialog.modul
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { LayoutModule } from '../layout/layout.module';
 import { BASE_PATH } from '../../services/generated/variables';
+import { environment } from '../../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { BASE_PATH } from '../../services/generated/variables';
   providers: [
     {
       provide: BASE_PATH,
-      useValue: 'http://localhost:5000',
+      useValue: environment.apiUrl,
     },
   ],
 })

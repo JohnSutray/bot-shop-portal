@@ -3,8 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order.model';
 import { Observable } from 'rxjs';
 import { PaginationResult } from '../models/page-result.model';
-import { PaginateSettings } from '../models/paginate-pattern.model';
 import { environment } from '../../environments/environment';
+import { OrderManagementService } from './generated/api/order-management.service';
+import { PaginationFilter } from '../models/paginate-filter.model';
+import { map } from 'rxjs/operators';
+import { mapPaginationResult } from '../utils/rxjs.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +15,12 @@ import { environment } from '../../environments/environment';
 export class OrderService {
   constructor(
     private readonly httpClient: HttpClient,
+    private readonly orderManagementService: OrderManagementService,
   ) {
   }
 
-  getOrders(settings: PaginateSettings<Order> = new PaginateSettings()): Observable<PaginationResult<Order>> {
-    return this.httpClient.post<PaginationResult<Order>>(`${environment.apiUrl}/order/all`, settings);
+  getOrders(paginationFilter: PaginationFilter): Observable<PaginationResult<Order>> {
+    return this.orderManagementService.getOrders(paginationFilter.page, paginationFilter.limit).pipe(mapPaginationResult(Order.fromDto));
   }
 
   removeOrder(id: string): Observable<Order> {

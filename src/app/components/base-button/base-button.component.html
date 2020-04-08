@@ -14,7 +14,7 @@
           [ngClass]="buttonClass"
           class="flex-grow-1"
           [disabled]="disabled"
-          (click)="buttonClick.next()">
+          (click)="buttonClick.next($event)">
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </button>
 
@@ -25,7 +25,7 @@
           [ngClass]="buttonClass"
           class="flex-grow-1"
           [disabled]="disabled"
-          (click)="buttonClick.next()">
+          (click)="buttonClick.next($event)">
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </button>
 
@@ -36,7 +36,7 @@
           [ngClass]="buttonClass"
           class="flex-grow-1"
           [disabled]="disabled"
-          (click)="buttonClick.next()">
+          (click)="buttonClick.next($event)">
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </button>
 
@@ -47,7 +47,7 @@
           [ngClass]="buttonClass"
           class="flex-grow-1"
           [disabled]="disabled"
-          (click)="buttonClick.next()">
+          (click)="buttonClick.next($event)">
     <ng-container [ngTemplateOutlet]="iconContent"></ng-container>
   </button>
 
@@ -58,7 +58,7 @@
           class="flex-grow-1"
           [color]="color"
           [disabled]="disabled"
-          (click)="buttonClick.next()">
+          (click)="buttonClick.next($event)">
     <ng-container *ngTemplateOutlet="icon ? iconContent : content"></ng-container>
   </button>
 
@@ -69,7 +69,7 @@
           [ngClass]="buttonClass"
           class="flex-grow-1"
           [disabled]="disabled"
-          (click)="buttonClick.next()">
+          (click)="buttonClick.next($event)">
     <ng-container *ngTemplateOutlet="icon ? iconContent : content"></ng-container>
   </button>
 </ng-container>

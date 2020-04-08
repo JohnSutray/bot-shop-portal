@@ -1,6 +1,7 @@
 <app-base-text-field [control]="descriptionControl"
                      [maxLength]="ValidationConstants.TEXT_AREA_MAX_LENGTH"
                      [label]="LabelsConstants.DESCRIPTION"
-                     rows="4"
-                     isTextarea>
+                     fieldClass="description-section"
+                     [rows]="4"
+                     [isTextarea]="true">
 </app-base-text-field>

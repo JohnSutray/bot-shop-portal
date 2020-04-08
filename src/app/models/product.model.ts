@@ -1,4 +1,5 @@
 import { ProductDto } from '../services/generated/model/product-dto';
+import { freezeAndSeal } from '../utils/object.utils';
 
 export class Product {
   static fromDto(dto: ProductDto): Product {
@@ -22,5 +23,6 @@ export class Product {
     public category: string,
     public type: string,
   ) {
+    freezeAndSeal(this);
   }
 }

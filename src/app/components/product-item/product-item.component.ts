@@ -1,20 +1,18 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Product } from '../../models/product.model';
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductCategory } from '../../models/product-category.model';
-import { tap } from 'rxjs/operators';
 import { ProductService } from '../../services/product.service';
 import { LabelsConstants } from '../../constants/labels.constants';
-import { EDisplayType } from '../../enums/display-type.enum';
 import { stubPipeOnError } from '../../utils/rxjs.utils';
 import { ValidationConstants } from '../../constants/validation.constants';
-import { log } from 'util';
 
 @Component({
   selector: 'app-product-item',
   templateUrl: './product-item.component.html',
   styleUrls: ['./product-item.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProductItemComponent implements OnInit {
   constructor(

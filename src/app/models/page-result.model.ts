@@ -1,4 +1,5 @@
 import { PaginationResultDto } from './pagination-result-dto.model';
+import { freezeAndSeal } from '../utils/object.utils';
 
 export class PaginationResult<TItem> {
   public static fromDto<TDto, TItem>(
@@ -18,6 +19,7 @@ export class PaginationResult<TItem> {
     readonly limit: number,
     readonly totalPages: number,
   ) {
+    freezeAndSeal(this);
   }
 
 

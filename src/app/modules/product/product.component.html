@@ -1,7 +1,7 @@
 <div class="product__page-configuration flex-row flex-center">
   <div class="flex-row flex-no-wrap">
     <app-paginator [pageResult]="pageResult"
-                   (paginateOptions)="updatePagination($event)">
+                   (paginationFilter)="updatePagination($event)">
     </app-paginator>
 
     <app-product-filter [categories]="categories"
