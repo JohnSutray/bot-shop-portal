@@ -6,7 +6,6 @@ import { PaginationResult } from '../models/page-result.model';
 import { environment } from '../../environments/environment';
 import { OrderManagementService } from './generated/api/order-management.service';
 import { PaginationFilter } from '../models/paginate-filter.model';
-import { map } from 'rxjs/operators';
 import { mapPaginationResult } from '../utils/rxjs.utils';
 
 @Injectable({

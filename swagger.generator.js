@@ -6,7 +6,7 @@ const slash = require('slash');
 
 const generatedDirectory = `./src/app/services/generated`;
 
-const jsonUrl = 'https://api.import-shop.net/swagger/v1/swagger.json';
+const jsonUrl = 'https://bot-shop-api-production.herokuapp.com/swagger/v1/swagger.json';
 const generatorUrl = 'https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar';
 
 const jsonFilename = 'swagger.json';

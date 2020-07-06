@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "import-shop-portal": {
+    "bot-shop-portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -68,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "import-shop-portal:build"
+            "browserTarget": "bot-shop-portal:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "import-shop-portal:build:production"
+              "browserTarget": "bot-shop-portal:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "import-shop-portal:build"
+            "browserTarget": "bot-shop-portal:build"
           }
         },
         "test": {
@@ -117,16 +117,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "import-shop-portal:serve"
+            "devServerTarget": "bot-shop-portal:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "import-shop-portal:serve:production"
+              "devServerTarget": "bot-shop-portal:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "import-shop-portal"
+  "defaultProject": "bot-shop-portal"
 }
