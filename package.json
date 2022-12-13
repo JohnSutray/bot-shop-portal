@@ -30,7 +30,7 @@
     "mime-types": "2.0.14",
     "lodash": "4.17.15",
     "lodash.range": "3.2.0",
-    "express": "4.17.1"
+    "express": "4.17.3"
   },
   "devDependencies": {
     "@types/lodash.range": "3.2.6",
